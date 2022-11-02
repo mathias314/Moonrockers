@@ -1,0 +1,4 @@
+<launch>
+  <node name="demo_gui" pkg="design_fair_demo" type="gui.py" />
+  <node name="gamepad" pkg="gamepad" type="gamepad.py" />
+</launch>

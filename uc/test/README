@@ -1,0 +1,6 @@
+This directory is intended for PlatformIO automated testing.
+
+Tests may be run by:   
+```
+pio test -f <test_name>
+```

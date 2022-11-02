@@ -1,0 +1,4 @@
+# Vim swap file
+*.swp
+# Ghostwriter Markdown editor backup
+*.backup

@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "AndersonPowerPole")(type "KiCad")(uri "${KIPRJMOD}/FPLibs/AndersonPowerPole.pretty")(options "")(descr ""))
+  (lib (name "PDB")(type "KiCad")(uri "${KIPRJMOD}/FPLibs/PDB.pretty")(options "")(descr ""))
+)

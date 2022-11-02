@@ -1,0 +1,3 @@
+This directory is intended for project source file headers.
+
+In this project, all source files exept main.cpp are kept in libraries within the `lib` folder. This is done since it makes unit testing a bit easier within PIO. Because of this, there are no files here for this project.  

@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name "MinesRobotics_PDB-rescue")(type "Legacy")(uri "${KIPRJMOD}/MinesRobotics_PDB-rescue.lib")(options "")(descr ""))
+  (lib (name "PDB")(type "KiCad")(uri "${KIPRJMOD}/PDB.kicad_sym")(options "")(descr ""))
+)

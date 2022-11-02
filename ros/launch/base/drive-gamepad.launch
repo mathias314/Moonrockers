@@ -1,0 +1,3 @@
+<launch>
+  <node name="gamepad" pkg="gamepad" type="gamepad.py" />
+</launch>
