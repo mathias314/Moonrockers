@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>/home/pgk/Workspace/PDB/MinesRobotics_PDB.kicad_sch</source>
+    <date>Wed 16 Feb 2022 05:25:16 PM MST</date>
+    <tool>Eeschema (6.0.1)</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>MinesRobotics_PDB.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/Buck converter/" tstamps="/6a43cbc3-957c-4b7d-9dbc-8c3175b73e7e/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>AuxPower.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="3" name="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>Fuses.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="H1">
+      <value>MountingHole_Pad</value>
+      <footprint>MountingHole:MountingHole_3.2mm_M3_DIN965_Pad</footprint>
+      <libsource lib="Mechanical" part="MountingHole_Pad" description="Mounting Hole with connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="MinesRobotics_PDB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>25fd1700-db9d-4ad6-9d29-ef69c7a0881b</tstamps>
+    </comp>
+    <comp ref="H2">
+      <value>MountingHole_Pad</value>
+      <footprint>MountingHole:MountingHole_3.2mm_M3_DIN965_Pad</footprint>
+      <libsource lib="Mechanical" part="MountingHole_Pad" description="Mounting Hole with connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="MinesRobotics_PDB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>4c42f3fc-250b-4053-a614-4c5adba26535</tstamps>
+    </comp>
+    <comp ref="H3">
+      <value>MountingHole_Pad</value>
+      <footprint>MountingHole:MountingHole_3.2mm_M3_DIN965_Pad</footprint>
+      <libsource lib="Mechanical" part="MountingHole_Pad" description="Mounting Hole with connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="MinesRobotics_PDB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>233e93de-daf3-475c-a24b-640e8af5e1ec</tstamps>
+    </comp>
+    <comp ref="H4">
+      <value>MountingHole_Pad</value>
+      <footprint>MountingHole:MountingHole_3.2mm_M3_DIN965_Pad</footprint>
+      <libsource lib="Mechanical" part="MountingHole_Pad" description="Mounting Hole with connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="MinesRobotics_PDB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6c0c9ec3-5bf8-4587-9d2e-a928d22f0c05</tstamps>
+    </comp>
+    <comp ref="H5">
+      <value>MountingHole_Pad</value>
+      <footprint>MountingHole:MountingHole_3.2mm_M3_DIN965_Pad</footprint>
+      <libsource lib="Mechanical" part="MountingHole_Pad" description="Mounting Hole with connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="MinesRobotics_PDB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9644d416-9152-4988-9ef3-3da58c3b55d3</tstamps>
+    </comp>
+    <comp ref="H6">
+      <value>MountingHole_Pad</value>
+      <footprint>MountingHole:MountingHole_3.2mm_M3_DIN965_Pad</footprint>
+      <libsource lib="Mechanical" part="MountingHole_Pad" description="Mounting Hole with connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="MinesRobotics_PDB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e3a4c55d-825b-40e6-8fd9-b7aa58675822</tstamps>
+    </comp>
+    <comp ref="H7">
+      <value>MountingHole_Pad</value>
+      <footprint>MountingHole:MountingHole_3.2mm_M3_DIN965_Pad</footprint>
+      <libsource lib="Mechanical" part="MountingHole_Pad" description="Mounting Hole with connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="MinesRobotics_PDB.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>cc62b2df-d5b5-4a52-be0a-8f610d12f28f</tstamps>
+    </comp>
+    <comp ref="C1">
+      <value>100u</value>
+      <footprint>Capacitor_SMD:CP_Elec_10x10</footprint>
+      <libsource lib="Device" part="C_Polarized_Small_US" description="Polarized capacitor, small US symbol"/>
+      <property name="Sheetname" value="Buck converter"/>
+      <property name="Sheetfile" value="AuxPower.kicad_sch"/>
+      <sheetpath names="/Buck converter/" tstamps="/6a43cbc3-957c-4b7d-9dbc-8c3175b73e7e/"/>
+      <tstamps>d5f0102a-ccd2-481d-aac9-a500663069d8</tstamps>
+    </comp>
+    <comp ref="C2">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric</footprint>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <property name="Sheetname" value="Buck converter"/>
+      <property name="Sheetfile" value="AuxPower.kicad_sch"/>
+      <sheetpath names="/Buck converter/" tstamps="/6a43cbc3-957c-4b7d-9dbc-8c3175b73e7e/"/>
+      <tstamps>ca9b4d23-33dc-44bf-bcd4-ceca80f4808b</tstamps>
+    </comp>
+    <comp ref="C3">
+      <value>22u</value>
+      <footprint>Capacitor_Tantalum_SMD:CP_EIA-7343-15_Kemet-W</footprint>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <property name="Sheetname" value="Buck converter"/>
+      <property name="Sheetfile" value="AuxPower.kicad_sch"/>
+      <sheetpath names="/Buck converter/" tstamps="/6a43cbc3-957c-4b7d-9dbc-8c3175b73e7e/"/>
+      <tstamps>474561c1-26a1-4205-b0f8-f525b846a87d</tstamps>
+    </comp>
+    <comp ref="C7">
+      <value>10u</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric</footprint>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <property name="Sheetname" value="Buck converter"/>
+      <property name="Sheetfile" value="AuxPower.kicad_sch"/>
+      <sheetpath names="/Buck converter/" tstamps="/6a43cbc3-957c-4b7d-9dbc-8c3175b73e7e/"/>
+      <tstamps>4b164835-6c8b-4c95-af30-50c82dd25735</tstamps>
+    </comp>
+    <comp ref="C8">
+      <value>1u</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric</footprint>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <property name="Sheetname" value="Buck converter"/>
+      <property name="Sheetfile" value="AuxPower.kicad_sch"/>
+      <sheetpath names="/Buck converter/" tstamps="/6a43cbc3-957c-4b7d-9dbc-8c3175b73e7e/"/>
+      <tstamps>92189bed-783a-41b6-89a9-ae553ff10cb3</tstamps>
+    </comp>
+    <comp ref="J1">
+      <value>Conn_01x02_Female</value>
+      <footprint>Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical</footprint>
+      <libsource lib="Connector" part="Conn_01x02_Female" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="Buck converter"/>
+      <property name="Sheetfile" value="AuxPower.kicad_sch"/>
+      <sheetpath names="/Buck converter/" tstamps="/6a43cbc3-957c-4b7d-9dbc-8c3175b73e7e/"/>
+      <tstamps>9948c6bb-cccc-496d-a25c-d8187488add3</tstamps>
+    </comp>
+    <comp ref="R1">
+      <value>100</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <libsource lib="Device" part="R_US" description="Resistor, US symbol"/>
+      <property name="Sheetname" value="Buck converter"/>
+      <property name="Sheetfile" value="AuxPower.kicad_sch"/>
+      <sheetpath names="/Buck converter/" tstamps="/6a43cbc3-957c-4b7d-9dbc-8c3175b73e7e/"/>
+      <tstamps>a84c00eb-ec0e-4de8-adb3-0de7fbd1645b</tstamps>
+    </comp>
+    <comp ref="R2">
+      <value>100</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <libsource lib="Device" part="R_US" description="Resistor, US symbol"/>
+      <property name="Sheetname" value="Buck converter"/>
+      <property name="Sheetfile" value="AuxPower.kicad_sch"/>
+      <sheetpath names="/Buck converter/" tstamps="/6a43cbc3-957c-4b7d-9dbc-8c3175b73e7e/"/>
+      <tstamps>38558d19-bf59-489f-b5e7-c3fa774752dc</tstamps>
+    </comp>
+    <comp ref="RV1">
+      <value>50k</value>
+      <footprint>Potentiometer_THT:Potentiometer_Bourns_3266Y_Vertical</footprint>
+      <fields>
+        <field name="MFN#">3266W-1-503LF</field>
+      </fields>
+      <libsource lib="Device" part="R_Potentiometer_Trim_US" description="Trim-potentiometer, US symbol"/>
+      <property name="MFN#" value="3266W-1-503LF"/>
+      <property name="Sheetname" value="Buck converter"/>
+      <property name="Sheetfile" value="AuxPower.kicad_sch"/>
+      <sheetpath names="/Buck converter/" tstamps="/6a43cbc3-957c-4b7d-9dbc-8c3175b73e7e/"/>
+      <tstamps>c6cc945b-63f6-4c71-b546-d8e6ecc8f2fb</tstamps>
+    </comp>
+    <comp ref="U1">
+      <value>I6A4W020A033V-003-R</value>
+      <footprint>PDB:i6A4W</footprint>
+      <fields>
+        <field name="MFN#">I6A24014A033V-003-R</field>
+      </fields>
+      <libsource lib="PDB" part="I6A4W020A033V-003-R" description=""/>
+      <property name="MFN#" value="I6A24014A033V-003-R"/>
+      <property name="Sheetname" value="Buck converter"/>
+      <property name="Sheetfile" value="AuxPower.kicad_sch"/>
+      <sheetpath names="/Buck converter/" tstamps="/6a43cbc3-957c-4b7d-9dbc-8c3175b73e7e/"/>
+      <tstamps>d26a2b59-a007-48ca-a9e2-7537e33fded9</tstamps>
+    </comp>
+    <comp ref="D1">
+      <value>LED_Small</value>
+      <footprint>LED_SMD:LED_0805_2012Metric</footprint>
+      <libsource lib="Device" part="LED_Small" description="Light emitting diode, small symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>2e709f81-27e1-4160-a920-3454f0adbb75</tstamps>
+    </comp>
+    <comp ref="D2">
+      <value>LED_Small</value>
+      <footprint>LED_SMD:LED_0805_2012Metric</footprint>
+      <libsource lib="Device" part="LED_Small" description="Light emitting diode, small symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>5d1bced9-9a79-4735-bf1c-e96b7b1daf8f</tstamps>
+    </comp>
+    <comp ref="D3">
+      <value>LED_Small</value>
+      <footprint>LED_SMD:LED_0805_2012Metric</footprint>
+      <libsource lib="Device" part="LED_Small" description="Light emitting diode, small symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>d7d102bb-6d2a-421d-ba1b-58ba7c404ea0</tstamps>
+    </comp>
+    <comp ref="D4">
+      <value>LED_Small</value>
+      <footprint>LED_SMD:LED_0805_2012Metric</footprint>
+      <libsource lib="Device" part="LED_Small" description="Light emitting diode, small symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>97a97ef3-2370-45d4-bf89-81797401d159</tstamps>
+    </comp>
+    <comp ref="D5">
+      <value>LED_Small</value>
+      <footprint>LED_SMD:LED_0805_2012Metric</footprint>
+      <libsource lib="Device" part="LED_Small" description="Light emitting diode, small symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>b838190a-1e1a-4428-bb31-acdce59af93e</tstamps>
+    </comp>
+    <comp ref="D6">
+      <value>LED_Small</value>
+      <footprint>LED_SMD:LED_0805_2012Metric</footprint>
+      <libsource lib="Device" part="LED_Small" description="Light emitting diode, small symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>34b2f6de-acbc-4d4f-a15e-c52c016b13f7</tstamps>
+    </comp>
+    <comp ref="D7">
+      <value>LED_Small</value>
+      <footprint>LED_SMD:LED_0805_2012Metric</footprint>
+      <libsource lib="Device" part="LED_Small" description="Light emitting diode, small symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>09c1dfea-e847-4939-8d87-4c5b38267c94</tstamps>
+    </comp>
+    <comp ref="D8">
+      <value>LED_Small</value>
+      <footprint>LED_SMD:LED_0805_2012Metric</footprint>
+      <libsource lib="Device" part="LED_Small" description="Light emitting diode, small symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>3ba776f4-56bf-41f1-a2f7-6ff7600c0961</tstamps>
+    </comp>
+    <comp ref="F1">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>4ed5d14f-456b-425b-9d37-b544d9e72f9c</tstamps>
+    </comp>
+    <comp ref="F2">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>5be0c3ec-362d-451c-bc35-62a3a7061140</tstamps>
+    </comp>
+    <comp ref="F3">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>a02e4182-1dd0-467d-8e43-a452ccb67619</tstamps>
+    </comp>
+    <comp ref="F4">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>8c5ee9fa-8b97-4c25-8e05-45cce2a6b628</tstamps>
+    </comp>
+    <comp ref="F5">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>16f267c8-cd84-42d2-a5b2-e89780abcc8a</tstamps>
+    </comp>
+    <comp ref="F6">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>44e3601a-782c-4627-884e-5d8c5fca3c47</tstamps>
+    </comp>
+    <comp ref="F7">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>40a19651-4896-4b19-8707-b662c1b0c71a</tstamps>
+    </comp>
+    <comp ref="F8">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>9e4b128c-9e70-495a-b2eb-221cb0c6e4b6</tstamps>
+    </comp>
+    <comp ref="F9">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>4f99303d-ce94-4007-9b57-c67c0d362347</tstamps>
+    </comp>
+    <comp ref="F10">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>93d0e9d1-5c29-4410-a36a-ca781ad33774</tstamps>
+    </comp>
+    <comp ref="F11">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>18ec8761-751e-4cfe-80d0-2792c16d6c3c</tstamps>
+    </comp>
+    <comp ref="F12">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>1705af3a-a7c5-471f-b001-d8bbd5a155c3</tstamps>
+    </comp>
+    <comp ref="F13">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>5f837917-7785-4416-bd6e-76854f2b582d</tstamps>
+    </comp>
+    <comp ref="F14">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>8dd74761-df26-4787-9b32-01128cbc1f91</tstamps>
+    </comp>
+    <comp ref="F15">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>dfe9bb7c-49d1-45e8-aa67-91ccde37b77f</tstamps>
+    </comp>
+    <comp ref="F16">
+      <value>Fuse</value>
+      <footprint>Fuse:Fuseholder_Blade_Mini_Keystone_3568</footprint>
+      <libsource lib="Device" part="Fuse" description="Fuse"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>7e545402-6bb3-469a-a222-b0c393a7590a</tstamps>
+    </comp>
+    <comp ref="J2">
+      <value>Conn_01x02_Female</value>
+      <footprint>AndersonPowerPole:PowerPole_45A_Vert</footprint>
+      <libsource lib="Connector" part="Conn_01x02_Female" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>7b1faddd-73ff-47d8-82e1-1290afdcc149</tstamps>
+    </comp>
+    <comp ref="J3">
+      <value>Conn_01x02_Female</value>
+      <footprint>AndersonPowerPole:PowerPole_45A_Vert</footprint>
+      <libsource lib="Connector" part="Conn_01x02_Female" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>acef2d6e-f71d-45f5-8cfd-18c99bb619d4</tstamps>
+    </comp>
+    <comp ref="J4">
+      <value>Conn_01x02_Female</value>
+      <footprint>AndersonPowerPole:PowerPole_45A_Vert</footprint>
+      <libsource lib="Connector" part="Conn_01x02_Female" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>69d9f711-5e04-43e9-b946-5f4153a09f39</tstamps>
+    </comp>
+    <comp ref="J5">
+      <value>Conn_01x02_Female</value>
+      <footprint>AndersonPowerPole:PowerPole_45A_Vert</footprint>
+      <libsource lib="Connector" part="Conn_01x02_Female" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>a562bb93-b172-45d4-8642-78cec5893ab8</tstamps>
+    </comp>
+    <comp ref="J6">
+      <value>Conn_01x02_Female</value>
+      <footprint>AndersonPowerPole:PowerPole_45A_Vert</footprint>
+      <libsource lib="Connector" part="Conn_01x02_Female" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>a8f47ac3-0d6a-4ba0-8e98-2d1822d3fdec</tstamps>
+    </comp>
+    <comp ref="J7">
+      <value>Conn_01x02_Female</value>
+      <footprint>AndersonPowerPole:PowerPole_45A_Vert</footprint>
+      <libsource lib="Connector" part="Conn_01x02_Female" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>19221b36-b181-4687-b395-05fc9d4032e2</tstamps>
+    </comp>
+    <comp ref="J8">
+      <value>Conn_01x02_Female</value>
+      <footprint>AndersonPowerPole:PowerPole_45A_Vert</footprint>
+      <libsource lib="Connector" part="Conn_01x02_Female" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>5ecc7dbe-b0d9-463d-8c1a-f76fb36065c3</tstamps>
+    </comp>
+    <comp ref="J9">
+      <value>Conn_01x02_Female</value>
+      <footprint>AndersonPowerPole:PowerPole_45A_Vert</footprint>
+      <libsource lib="Connector" part="Conn_01x02_Female" description="Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>a85c55da-6410-4319-980d-497422af99fc</tstamps>
+    </comp>
+    <comp ref="R3">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <libsource lib="Device" part="R_US" description="Resistor, US symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>3baeaec2-950e-40f0-b9e7-7241cfa6357a</tstamps>
+    </comp>
+    <comp ref="R4">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <libsource lib="Device" part="R_US" description="Resistor, US symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>20e29e46-c769-458d-948f-23e37ef15168</tstamps>
+    </comp>
+    <comp ref="R5">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <libsource lib="Device" part="R_US" description="Resistor, US symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>9cc19ebb-ae61-437d-b0c2-d088e84f8075</tstamps>
+    </comp>
+    <comp ref="R6">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <libsource lib="Device" part="R_US" description="Resistor, US symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>fdf9a090-227b-4f78-808e-2071894a1cbf</tstamps>
+    </comp>
+    <comp ref="R7">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <libsource lib="Device" part="R_US" description="Resistor, US symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>f1a3ffaa-121c-479d-a719-1bced972a8b2</tstamps>
+    </comp>
+    <comp ref="R8">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <libsource lib="Device" part="R_US" description="Resistor, US symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>b0ebea62-c721-466f-aeeb-bf5d3b1fcbc4</tstamps>
+    </comp>
+    <comp ref="R9">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <libsource lib="Device" part="R_US" description="Resistor, US symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>16ff34cb-8f1b-4f4d-8561-46b64a856dd4</tstamps>
+    </comp>
+    <comp ref="R10">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <libsource lib="Device" part="R_US" description="Resistor, US symbol"/>
+      <property name="Sheetname" value="Fuses"/>
+      <property name="Sheetfile" value="Fuses.kicad_sch"/>
+      <sheetpath names="/Fuses/" tstamps="/6246cb0d-f771-4c14-9a1f-f63de926e353/"/>
+      <tstamps>369ffe8d-3fc0-4f77-a239-415186e07fbd</tstamps>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Connector" part="Conn_01x02_Female">
+      <description>Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x02_Female</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="C_Polarized_Small_US">
+      <description>Polarized capacitor, small US symbol</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>CP_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C_Polarized_Small_US</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="C_Small">
+      <description>Unpolarized capacitor, small symbol</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>C_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C_Small</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="Fuse">
+      <description>Fuse</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>*Fuse*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">F</field>
+        <field name="Value">Fuse</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="LED_Small">
+      <description>Light emitting diode, small symbol</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>LED*</fp>
+        <fp>LED_SMD:*</fp>
+        <fp>LED_THT:*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED_Small</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R_Potentiometer_Trim_US">
+      <description>Trim-potentiometer, US symbol</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Potentiometer*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">RV</field>
+        <field name="Value">R_Potentiometer_Trim_US</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R_US">
+      <description>Resistor, US symbol</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R_US</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mechanical" part="MountingHole_Pad">
+      <description>Mounting Hole with connection</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>MountingHole*Pad*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">H</field>
+        <field name="Value">MountingHole_Pad</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="PDB" part="I6A4W020A033V-003-R">
+      <fields>
+        <field name="Reference">U1</field>
+        <field name="Value">I6A4W020A033V-003-R</field>
+        <field name="Footprint">PDB:i6A4W</field>
+        <field name="MFN#">I6A24014A033V-003-R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VIN" type="input"/>
+        <pin num="2" name="ON" type="input"/>
+        <pin num="3" name="GND" type="input"/>
+        <pin num="4" name="GND" type="input"/>
+        <pin num="5" name="P_GOOD" type="input"/>
+        <pin num="6" name="TRIM" type="input"/>
+        <pin num="7" name="SENSE" type="input"/>
+        <pin num="8" name="VOUT" type="output"/>
+        <pin num="32" name="SYNC" type="input"/>
+        <pin num="33" name="MS" type="input"/>
+        <pin num="34" name="SEQ" type="input"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="Connector">
+      <uri>/home/pgk/Workspace/KiCAD/KiCAD_Symbols/Connector.kicad_sym</uri>
+    </library>
+    <library logical="Device">
+      <uri>/home/pgk/Workspace/KiCAD/KiCAD_Symbols/Device.kicad_sym</uri>
+    </library>
+    <library logical="Mechanical">
+      <uri>/home/pgk/Workspace/KiCAD/KiCAD_Symbols/Mechanical.kicad_sym</uri>
+    </library>
+    <library logical="PDB">
+      <uri>/home/pgk/Workspace/PDB/PDB.kicad_sym</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="+9V">
+      <node ref="C2" pin="1" pintype="passive"/>
+      <node ref="C3" pin="1" pintype="passive"/>
+      <node ref="J1" pin="1" pinfunction="Pin_1" pintype="passive"/>
+      <node ref="U1" pin="7" pinfunction="SENSE" pintype="input"/>
+      <node ref="U1" pin="8" pinfunction="VOUT" pintype="output"/>
+    </net>
+    <net code="2" name="+24V">
+      <node ref="C1" pin="1" pintype="passive"/>
+      <node ref="C7" pin="1" pintype="passive"/>
+      <node ref="C8" pin="1" pintype="passive"/>
+      <node ref="D1" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D2" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D3" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D4" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D5" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D6" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D7" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="D8" pin="2" pinfunction="A" pintype="passive"/>
+      <node ref="F1" pin="1" pintype="passive"/>
+      <node ref="F10" pin="1" pintype="passive"/>
+      <node ref="F11" pin="1" pintype="passive"/>
+      <node ref="F12" pin="1" pintype="passive"/>
+      <node ref="F13" pin="1" pintype="passive"/>
+      <node ref="F14" pin="1" pintype="passive"/>
+      <node ref="F15" pin="1" pintype="passive"/>
+      <node ref="F16" pin="1" pintype="passive"/>
+      <node ref="F2" pin="1" pintype="passive"/>
+      <node ref="F3" pin="1" pintype="passive"/>
+      <node ref="F4" pin="1" pintype="passive"/>
+      <node ref="F5" pin="1" pintype="passive"/>
+      <node ref="F6" pin="1" pintype="passive"/>
+      <node ref="F7" pin="1" pintype="passive"/>
+      <node ref="F8" pin="1" pintype="passive"/>
+      <node ref="F9" pin="1" pintype="passive"/>
+      <node ref="R1" pin="1" pintype="passive"/>
+      <node ref="U1" pin="1" pinfunction="VIN" pintype="input"/>
+    </net>
+    <net code="3" name="/Fuses/DIG_MOTOR">
+      <node ref="F4" pin="2" pintype="passive"/>
+      <node ref="F8" pin="2" pintype="passive"/>
+      <node ref="J5" pin="1" pinfunction="Pin_1" pintype="passive"/>
+      <node ref="R6" pin="2" pintype="passive"/>
+    </net>
+    <net code="4" name="/Fuses/DRIVE_MOTOR_LEFT_FRONT">
+      <node ref="F1" pin="2" pintype="passive"/>
+      <node ref="F5" pin="2" pintype="passive"/>
+      <node ref="J2" pin="1" pinfunction="Pin_1" pintype="passive"/>
+      <node ref="R3" pin="2" pintype="passive"/>
+    </net>
+    <net code="5" name="/Fuses/DRIVE_MOTOR_LEFT_REAR">
+      <node ref="F13" pin="2" pintype="passive"/>
+      <node ref="F9" pin="2" pintype="passive"/>
+      <node ref="J6" pin="1" pinfunction="Pin_1" pintype="passive"/>
+      <node ref="R7" pin="2" pintype="passive"/>
+    </net>
+    <net code="6" name="/Fuses/DRIVE_MOTOR_RIGHT_FRONT">
+      <node ref="F2" pin="2" pintype="passive"/>
+      <node ref="F6" pin="2" pintype="passive"/>
+      <node ref="J3" pin="1" pinfunction="Pin_1" pintype="passive"/>
+      <node ref="R4" pin="2" pintype="passive"/>
+    </net>
+    <net code="7" name="/Fuses/DRIVE_MOTOR_RIGHT_REAR">
+      <node ref="F10" pin="2" pintype="passive"/>
+      <node ref="F14" pin="2" pintype="passive"/>
+      <node ref="J7" pin="1" pinfunction="Pin_1" pintype="passive"/>
+      <node ref="R8" pin="2" pintype="passive"/>
+    </net>
+    <net code="8" name="/Fuses/GATE_LIFT_MOTOR_1">
+      <node ref="F3" pin="2" pintype="passive"/>
+      <node ref="F7" pin="2" pintype="passive"/>
+      <node ref="J4" pin="1" pinfunction="Pin_1" pintype="passive"/>
+      <node ref="R5" pin="2" pintype="passive"/>
+    </net>
+    <net code="9" name="/Fuses/GATE_LIFT_MOTOR_2">
+      <node ref="F11" pin="2" pintype="passive"/>
+      <node ref="F15" pin="2" pintype="passive"/>
+      <node ref="J8" pin="1" pinfunction="Pin_1" pintype="passive"/>
+      <node ref="R9" pin="2" pintype="passive"/>
+    </net>
+    <net code="10" name="/Fuses/PLUNGE_MOTOR">
+      <node ref="F12" pin="2" pintype="passive"/>
+      <node ref="F16" pin="2" pintype="passive"/>
+      <node ref="J9" pin="1" pinfunction="Pin_1" pintype="passive"/>
+      <node ref="R10" pin="2" pintype="passive"/>
+    </net>
+    <net code="11" name="GND">
+      <node ref="C1" pin="2" pintype="passive"/>
+      <node ref="C2" pin="2" pintype="passive"/>
+      <node ref="C3" pin="2" pintype="passive"/>
+      <node ref="C7" pin="2" pintype="passive"/>
+      <node ref="C8" pin="2" pintype="passive"/>
+      <node ref="H1" pin="1" pinfunction="1" pintype="input"/>
+      <node ref="H2" pin="1" pinfunction="1" pintype="input"/>
+      <node ref="H3" pin="1" pinfunction="1" pintype="input"/>
+      <node ref="H4" pin="1" pinfunction="1" pintype="input"/>
+      <node ref="H5" pin="1" pinfunction="1" pintype="input"/>
+      <node ref="H6" pin="1" pinfunction="1" pintype="input"/>
+      <node ref="H7" pin="1" pinfunction="1" pintype="input"/>
+      <node ref="J1" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="J2" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="J3" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="J4" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="J5" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="J6" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="J7" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="J8" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="J9" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="RV1" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="RV1" pin="3" pinfunction="3" pintype="passive"/>
+      <node ref="U1" pin="3" pinfunction="GND" pintype="input"/>
+      <node ref="U1" pin="4" pinfunction="GND" pintype="input"/>
+    </net>
+    <net code="12" name="Net-(D1-Pad1)">
+      <node ref="D1" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="R3" pin="1" pintype="passive"/>
+    </net>
+    <net code="13" name="Net-(D2-Pad1)">
+      <node ref="D2" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="R4" pin="1" pintype="passive"/>
+    </net>
+    <net code="14" name="Net-(D3-Pad1)">
+      <node ref="D3" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="R5" pin="1" pintype="passive"/>
+    </net>
+    <net code="15" name="Net-(D4-Pad1)">
+      <node ref="D4" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="R6" pin="1" pintype="passive"/>
+    </net>
+    <net code="16" name="Net-(D5-Pad1)">
+      <node ref="D5" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="R7" pin="1" pintype="passive"/>
+    </net>
+    <net code="17" name="Net-(D6-Pad1)">
+      <node ref="D6" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="R8" pin="1" pintype="passive"/>
+    </net>
+    <net code="18" name="Net-(D7-Pad1)">
+      <node ref="D7" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="R9" pin="1" pintype="passive"/>
+    </net>
+    <net code="19" name="Net-(D8-Pad1)">
+      <node ref="D8" pin="1" pinfunction="K" pintype="passive"/>
+      <node ref="R10" pin="1" pintype="passive"/>
+    </net>
+    <net code="20" name="Net-(R1-Pad2)">
+      <node ref="R1" pin="2" pintype="passive"/>
+      <node ref="U1" pin="2" pinfunction="ON" pintype="input"/>
+    </net>
+    <net code="21" name="Net-(R2-Pad1)">
+      <node ref="R2" pin="1" pintype="passive"/>
+      <node ref="U1" pin="6" pinfunction="TRIM" pintype="input"/>
+    </net>
+    <net code="22" name="Net-(R2-Pad2)">
+      <node ref="R2" pin="2" pintype="passive"/>
+      <node ref="RV1" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="23" name="unconnected-(U1-Pad5)">
+      <node ref="U1" pin="5" pinfunction="P_GOOD" pintype="input+no_connect"/>
+    </net>
+    <net code="24" name="unconnected-(U1-Pad32)">
+      <node ref="U1" pin="32" pinfunction="SYNC" pintype="input+no_connect"/>
+    </net>
+    <net code="25" name="unconnected-(U1-Pad33)">
+      <node ref="U1" pin="33" pinfunction="MS" pintype="input+no_connect"/>
+    </net>
+    <net code="26" name="unconnected-(U1-Pad34)">
+      <node ref="U1" pin="34" pinfunction="SEQ" pintype="input+no_connect"/>
+    </net>
+  </nets>
+</export>
