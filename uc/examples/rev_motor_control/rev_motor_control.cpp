@@ -18,7 +18,7 @@
 
 #include <Arduino.h>
 #include <SPI.h>
-#include "SparkMc.h"
+#include "SparkMax.h"
 #include "PwmMotor.h"
 #include "pins.h"
 
@@ -67,7 +67,7 @@ void canSend(unsigned long id, uchar ext, uchar rtrBit, uchar len, const uchar *
 }
 #endif
 
-SparkMc motor(5);
+SparkMax motor(5);
 
 PwmMotor pwmMotor(GATE_PIN, GATE_PWM_CHANNEL);
 
@@ -94,9 +94,9 @@ void setup() {
     Serial.println("CAN BUS Shield Init OK!");
 
     // Add the sender and receiver for the CAN communications.
-    SparkMc::addCanSender(canSend);
+    FrcMotorController::addCanSender(canSend);
     Serial.println("Adding CAN receiver...");
-    SparkMc::addCanReceiver(CAN_INT_PIN, canReceive);
+    FrcMotorController::addCanReceiver(CAN_INT_PIN, canReceive);
 
     // Clear faults    
     Serial.println("Clearing faults...");
@@ -116,7 +116,7 @@ void loop() {
     char readVal = 0;
     // Update at a fixe interval (<100ms I think)
     delay(80);
-    SparkMc::sendKeepAlive();
+    FrcMotorController::sendKeepAlive();
     
     // Check if any serial data available
     while (Serial.available()) {

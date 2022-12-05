@@ -8,7 +8,7 @@
 
 #include <Arduino.h>
 #include <SPI.h>
-#include "SparkMc.h"
+#include "SparkMax.h"
 
 //! Use this to select the type of CAN module being used!
 #define SPI_CAN
@@ -72,7 +72,7 @@ void setup() {
     Serial.println("CAN BUS Shield Init OK!");
 
     // Add the sender for the CAN communications.
-    SparkMc::addCanSender(canSend);
+    FrcMotorController::addCanSender(canSend);
 
     // Clear faults    
     motors[0]->clearFaults();
@@ -91,7 +91,7 @@ void loop() {
     // Update at a fixe interval (<100ms I think)
     if (millis() - lastSend >= 80) {
         lastPeriod = millis() - lastSend;
-        SparkMc::sendKeepAlive();
+        FrcMotorController::sendKeepAlive();
         lastSend = millis();
     }
 
