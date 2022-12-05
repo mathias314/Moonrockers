@@ -23,6 +23,7 @@ PwmMotor::PwmMotor(unsigned pin, unsigned channel) : pin(pin), channel(channel) 
 void PwmMotor::init() {
     pinMode(pin, OUTPUT);
 
+#if defined(ARDUINO_SAMD_NANO_33_IOT)
     // Disable the TCC1 counter
     TCC1->CTRLA.bit.ENABLE = 0;
     while (TCC1->SYNCBUSY.bit.ENABLE);
@@ -82,6 +83,7 @@ void PwmMotor::init() {
     // Enable the TCC1 counter
     TCC1->CTRLA.bit.ENABLE = 1;
     while (TCC1->SYNCBUSY.bit.ENABLE);
+#endif
 }
 
 /**
@@ -105,6 +107,7 @@ void PwmMotor::setPower(float newPower) {
         power = -power;
     }
     
+#if defined(ARDUINO_SAMD_NANO_33_IOT)
     // Calculate the duty cycle 
     unsigned maxVal = TCC1->PER.reg;
     unsigned range = (maxVal+1) * 0.05;
@@ -133,6 +136,10 @@ void PwmMotor::setPower(float newPower) {
                 busy = false;
         }
     }
+
+#else
+    analogWrite(pin, 128+127*power);
+#endif
 }
 
 /**

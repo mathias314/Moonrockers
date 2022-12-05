@@ -5,7 +5,7 @@
 #include "std_msgs/ColorRGBA.h"
 
 #include <SPI.h>
-#include "SparkMc.h"
+#include "SparkMax.h"
 #include "pins.h"
 #include "PwmMotor.h"
 #include <Adafruit_NeoPixel.h>
@@ -53,16 +53,16 @@ unsigned canReceive(uint32_t *id, uint8_t *dat) {
 
 // --------Motor control stuff-----------------
 // SPARK motor definitions
-SparkMc mtrFrontLeft(FL_MTR_ID);
-SparkMc mtrFrontRight(FR_MTR_ID);
-SparkMc mtrBackRight(BR_MTR_ID);
-SparkMc mtrBackLeft(BL_MTR_ID);
-SparkMc mtrBucket(DELIVERY_MTR_ID);
-SparkMc mtrPlunge(PLUNGE_MTR_ID);
+SparkMax mtrFrontLeft(FL_MTR_ID);
+SparkMax mtrFrontRight(FR_MTR_ID);
+SparkMax mtrBackRight(BR_MTR_ID);
+SparkMax mtrBackLeft(BL_MTR_ID);
+SparkMax mtrBucket(DELIVERY_MTR_ID);
+SparkMax mtrPlunge(PLUNGE_MTR_ID);
 
 // this should include ALL motors on the robot
-SparkMc* motors[] = {&mtrFrontLeft, &mtrFrontRight, &mtrBackRight, &mtrBackLeft, &mtrPlunge, &mtrBucket};
-uint8_t numMotors = sizeof(motors) / sizeof(SparkMc*);
+SparkMax* motors[] = {&mtrFrontLeft, &mtrFrontRight, &mtrBackRight, &mtrBackLeft, &mtrPlunge, &mtrBucket};
+uint8_t numMotors = sizeof(motors) / sizeof(SparkMax*);
 
 PwmMotor mtrGate(GATE_PIN, GATE_PWM_CHANNEL);
 PwmMotor mtrConveyor(CONVEYOR_PIN, CONVEYOR_PWM_CHANNEL);
@@ -184,8 +184,8 @@ void setup()
   }
 
   // Add the sender for the CAN communications.
-  SparkMc::addCanSender(canSend);
-  SparkMc::addCanReceiver(CAN_INT_PIN, canReceive);
+  FrcMotorController::addCanSender(canSend);
+  FrcMotorController::addCanReceiver(CAN_INT_PIN, canReceive);
 
   // get the motors ready to go
   for (int i = 0; i < numMotors; i++)
@@ -218,7 +218,7 @@ void loop()
   if (millis() - canKeepAliveLastTime > canKeepAlivePeriod)
   {
     canKeepAliveLastTime = millis();
-    SparkMc::sendKeepAlive();
+    FrcMotorController::sendKeepAlive();
   }
 
   if (millis() - blinkLastTime > blinkPeriod)

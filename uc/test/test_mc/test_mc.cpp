@@ -4,11 +4,11 @@
  * @date 2021-12-13
  */
 #include <Arduino.h>
-#include "SparkMc.h"
+#include "SparkMax.h"
 #include <unity.h>
 
-SparkMc mtr1(1);
-SparkMc mtr4(4);
+SparkMax mtr1(1);
+SparkMax mtr4(4);
 
 uint8_t canDat[8] = {0};
 uint32_t canId = 0;
@@ -64,7 +64,7 @@ void test_spark_keep_alive(void) {
     uint8_t compDat[] = {bit(4) | bit(1), 0, 0, 0, 0, 0, 0, 0};
 
     delay(20); // There is a 10ms limit on sending...
-    SparkMc::sendKeepAlive();
+    FrcMotorController::sendKeepAlive();
     TEST_ASSERT_EQUAL_HEX8_ARRAY(compDat, canDat, 8);
     TEST_ASSERT_EQUAL_HEX32(KEEP_ALIVE_ID, canId);
 }
@@ -89,7 +89,7 @@ void test_spark_clear_faults(void) {
 void setup() {
     delay(1000);
 
-    SparkMc::addCanSender(canSend);
+    FrcMotorController::addCanSender(canSend);
 
     UNITY_BEGIN();
     RUN_TEST(test_spark_run);

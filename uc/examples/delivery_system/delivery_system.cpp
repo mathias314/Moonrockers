@@ -10,7 +10,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#include "SparkMc.h"
+#include "SparkMax.h"
 
 //! Use this to select the type of CAN module being used!
 #define SPI_CAN
@@ -67,7 +67,7 @@ void canSend(unsigned long id, uchar ext, uchar rtrBit, uchar len, const uchar *
 }
 #endif
 
-SparkMc deliveryMotor(1);
+SparkMax deliveryMotor(1);
 
 const float PERIOD_CONV = FREQUENCY * 2 * PI / 1000.0;
 
@@ -91,7 +91,7 @@ void setup() {
     Serial.println("CAN BUS Shield Init OK!");
 
     // Add the sender for the CAN communications.
-    SparkMc::addCanSender(canSend);
+    FrcMotorController::addCanSender(canSend);
 
     // Clear faults
     deliveryMotor.clearFaults();
@@ -104,7 +104,7 @@ void loop() {
 
     // Update at a fixe interval (<100ms I think)
     delay(80);
-    SparkMc::sendKeepAlive();
+    FrcMotorController::sendKeepAlive();
     static unsigned long startTime = millis();
 
     // Check if any serial data available

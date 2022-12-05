@@ -36,6 +36,10 @@ typedef enum {
     TeamUse=8
 } CanDeviceManufacturer;
 
+// Define some bits for the CAN communications
+const uint8_t RTR_BIT = 0;
+const uint8_t EXT_BIT = 1;
+
 uint32_t makeCanId(CanDeviceManufacturer manufacturer, CanDeviceType device, uint16_t msgId, uint16_t deviceId);
 uint8_t* float2buff(float val, uint8_t* arr);
 uint8_t* int2buff(uint16_t val, uint8_t* arr);
