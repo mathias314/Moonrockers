@@ -1,5 +1,5 @@
-#ifndef __SPARK_MAX_H__
-#define __SPARK_MAX_H__
+#ifndef __TALON_SRX_H__
+#define __TALON_SRX_H__
 
 #include <Arduino.h>
 

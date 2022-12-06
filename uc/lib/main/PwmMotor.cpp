@@ -136,7 +136,7 @@ void PwmMotor::setPower(float newPower) {
                 busy = false;
         }
     }
-
+#elif defined(ESP32)
 #else
     analogWrite(pin, 128+127*power);
 #endif

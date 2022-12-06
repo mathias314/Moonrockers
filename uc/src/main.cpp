@@ -6,7 +6,7 @@
 
 #include <SPI.h>
 #include "SparkMax.h"
-#include "pins.h"
+#include "globals.h"
 #include "PwmMotor.h"
 #include <Adafruit_NeoPixel.h>
 

@@ -3,7 +3,7 @@
 /////////////////////////////////////////////////////////////////////////////
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
-#include "pins.h"
+#include "globals.h"
 
 Adafruit_NeoPixel pixels(NUM_BACK_LEDS, BACK_LED_PIN, NEO_GRB + NEO_KHZ800);
 #define DELAYVAL 500

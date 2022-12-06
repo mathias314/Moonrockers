@@ -22,7 +22,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "TalonSrx.h"
-#include "pins.h"
+#include "globals.h"
 
 //! Use this to select the type of CAN module being used!
 #define SPI_CAN
