@@ -14,8 +14,6 @@
 #include "globals.h"
 #include "canFuncs.h"
 
-#define UPDATE_INTERVAL 5  // Update interval in ms
-
 MoonBot robot(UPDATE_INTERVAL / 1000.0);
 
 #define JOY_DEAD_ZONE 0.1
@@ -92,6 +90,10 @@ void loop()
     static unsigned long lastTime = millis();
     static unsigned long lastDrive = 0;
     static float joyLY, joyRY;
+    static float lastJoyLY = 0.0;
+    static float lastJoyRY = 0.0;
+    static unsigned long lastCycleTime = 0;
+    static unsigned long releaseStart = 0;
 
     // Get the current values from Dabble
     if (Ps3.isConnected())
@@ -100,7 +102,22 @@ void loop()
         {
             joyLY = -(Ps3.data.analog.stick.ly - joyLMiddle) / JOY_MAX;
             joyRY = -(Ps3.data.analog.stick.ry - joyRMiddle) / JOY_MAX;
-            robot.drive(joyLY, joyRY);
+            
+            
+            // If joystick getting released, skip this cycle
+            float maxRate = 0.002 / max(millis() - lastCycleTime, 1ul);
+            bool stickReleased = ((abs(joyLY) - abs(lastJoyLY)) < -maxRate || (abs(joyRY) - abs(lastJoyRY)) < -maxRate);
+            lastJoyLY = joyLY;
+            lastJoyRY = joyRY;
+            lastCycleTime = millis();
+            if (stickReleased)
+            {
+                releaseStart = millis();
+            }
+            if ((millis() - releaseStart) > 50)
+            {
+                robot.drive(joyLY, joyRY);
+            }
             lastDrive = millis();
         }
 

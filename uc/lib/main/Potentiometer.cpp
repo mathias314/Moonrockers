@@ -3,9 +3,9 @@
  */
 #include "Potentiometer.h"
 
-const float RAD_MS_TO_RPM = 1000 * 60 / (2*PI);
+const float RAD_US_TO_RPM = 1000 * 1000 * 60 / (2*PI);
 
-Potentiometer::Potentiometer() : angleFilter(5, 512, 0.25), velocityFilter(5, 0, 0.25) {
+Potentiometer::Potentiometer() : angleFilter(4, 4, 1.5), velocityFilter(4, 4, 0.1) {
 }
 
 Potentiometer::Potentiometer(unsigned pin) : Potentiometer() {
@@ -74,19 +74,19 @@ float Potentiometer::interpAngle(unsigned val) {
  */
 void Potentiometer::update() {
     // Get current values
-    unsigned newEstimateTime = millis();
-    float newRawAngle = interpAngle(analogRead(pin));
+    unsigned long newEstimateTime = micros();
+    rawAngle = interpAngle(analogRead(pin));
+    float newFilteredAngle = angleFilter.updateEstimate(rawAngle);
 
     // Estimate velocity
-    rawVelocity = (newRawAngle - rawAngle) / (newEstimateTime - estimateTime) * RAD_MS_TO_RPM; 
+    rawVelocity = (newFilteredAngle - filteredAngle) / (newEstimateTime - estimateTime) * RAD_US_TO_RPM; 
 
     // Update the values for next iteration
-    rawAngle = newRawAngle;
+    filteredAngle = newFilteredAngle;
     estimateTime = newEstimateTime;
     
     // Filter
     filteredVelocity = velocityFilter.updateEstimate(rawVelocity);
-    filteredAngle = angleFilter.updateEstimate(rawAngle);
 }
 
 /**

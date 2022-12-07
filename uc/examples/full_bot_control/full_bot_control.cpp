@@ -17,8 +17,6 @@
 
 //#define STAT_LED 6
 
-#define UPDATE_INTERVAL 5  // UPdate interval in ms
-
 MoonBot robot(UPDATE_INTERVAL / 1000.0);
 
 enum ControlStates {

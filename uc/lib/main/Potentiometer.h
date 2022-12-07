@@ -34,9 +34,9 @@ private:
 
     /*
      SimpleKalmanFilter(e_mea, e_est, q);
-     e_mea: Measurement Uncertainty 
-     e_est: Estimation Uncertainty 
-     q: Process Noise
+     e_mea: Measurement Uncertainty (how much we expect the measurement to vary)
+     e_est: Estimation Uncertainty (guess with same value as e_mea)
+     q: Process variance (larger means changes faster)
      */
     SimpleKalmanFilter angleFilter;
     SimpleKalmanFilter velocityFilter;

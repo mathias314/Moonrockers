@@ -1,4 +1,5 @@
 #include "canFuncs.h"
+#include <SPI.h>
 #include "globals.h"
 
 mcp2515_can CAN(CAN_CS_PIN);  // Set CS pin

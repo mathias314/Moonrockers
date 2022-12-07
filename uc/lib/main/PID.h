@@ -15,7 +15,7 @@ class PID {
         void setConstants(float Kp,float Ki, float Kd, float N, float sample_time);
         void setLimits(float min, float max);
         void setTargetLimits(float min, float max);
-        void setTarget(float target, bool ramp=true);
+        void setTarget(float target, bool ramp=false);
         void setTargetRampRate(float rate);
         float getTarget();
         void reset();

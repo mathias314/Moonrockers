@@ -36,7 +36,23 @@ const unsigned ANGLE_SENSOR_CALIBRATIONS[4][3] = {
     {804, 464, 101},  // Back left
     {860, 518, 173}  // Back right
 };
-const float PIV_KP = 1.0, PIV_KI = 0.0, PIV_KD = 0.0, PIV_N = 1;
+
+// Control loop undate interval in ms
+#define UPDATE_INTERVAL 2
+
+// Motor output constraints
+const float PIVOT_VELOCITY = 60; // In RPM
+const float PIVOT_MAX_ANGLE = PI/2;
+const float DRIVE_MAX_PWR = 0.4;
+const float PIVOT_MAX_PWR = 1.0;
+
+// Position PID control values
+const float PIV_KP = 1.0, PIV_KI = 0.0, PIV_KD = 0.0, PIV_N = 1;   
+
+// Proportional position + PID velocity control
+const float PIV_POS_KP = PIVOT_VELOCITY / (10 * DEG_TO_RAD); // This is basically setting the angle where we start to ramp down.
+// const float PIV_VEL_KP = 0.0025, PIV_VEL_KI = 0.005, PIV_VEL_KD = 0.0002, PIV_VEL_N = 3;
+const float PIV_VEL_KP = 0.0025, PIV_VEL_KI = 0.01, PIV_VEL_KD = 0.0001, PIV_VEL_N = 3;
 
 // CAN bus IDs
 #define FL_MTR_ID 4
@@ -55,11 +71,11 @@ const float PIV_KP = 1.0, PIV_KI = 0.0, PIV_KD = 0.0, PIV_N = 1;
 #define DELIVERY_MTR_ID 6
 
 // LEDs
-#define NUM_LEFT_LEDS 5
-#define NUM_RIGHT_LEDS 5
+#define NUM_LEFT_LEDS 16
+#define NUM_RIGHT_LEDS 16
 
-#define LEFT_LED_PIN 7
-#define RIGHT_LED_PIN 6
+#define LEFT_LED_PIN 4
+#define RIGHT_LED_PIN 21
 
 
 #endif

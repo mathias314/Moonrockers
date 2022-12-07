@@ -30,10 +30,18 @@ class MoonBot {
     void setMotorPower(Joint motor, float power);
     void setPivotAngle(Joint pivot, float angle);
 
-   private:
+    void setPivotPIDConstants(Joint pivot, float kp, float ki, float kd, float N);
+    
     // Motor controllers
     static const unsigned NUM_DRIVE_MOTORS = 6;
     static const unsigned NUM_PIVOTS = 4;
+    
+    Potentiometer angleSensors[NUM_PIVOTS];
+
+   private:
+    bool botStopped = true; // Whether we are actively running motors
+
+    // Motor controllers
     SparkMax driveMotors[NUM_DRIVE_MOTORS];
     TalonSrx pivotMotors[NUM_PIVOTS];
 
@@ -41,12 +49,12 @@ class MoonBot {
     FrcMotorController* motors[NUM_MOTORS];
 
     // Position feedback sensors and PID
-    Potentiometer angleSensors[NUM_PIVOTS];
     PID pivotPids[NUM_PIVOTS];
+    float pivotTargets[NUM_PIVOTS] = {0};
 
     // Some timing stuff
     const unsigned KEEP_ALIVE_INTERVAL = 40;
-    unsigned updateInterval = 0;
+    float updateInterval = 0;
 
     unsigned long lastKeepAliveTime = 0;
     unsigned long lastUpdateTime = 0;
@@ -60,10 +68,11 @@ class MoonBot {
     const float PIVOT_LIM_OUT = PI / 2;
     const float PIVOT_LIM_IN = PI / 2;
 
-    // Adafruit_NeoPixel leftLeds;
-    // Adafruit_NeoPixel rightLeds;
+    Adafruit_NeoPixel leftLeds;
+    Adafruit_NeoPixel rightLeds;
 
     inline float dist(float x1, float x2);
+    uint32_t driveDirToColor(float vel);
 };
 
 #endif
