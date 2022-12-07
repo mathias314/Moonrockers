@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <HX711.h>
 
-#include "pins.h"
+#include "globals.h"
 
 #define DOUT_PIN 5
 #define SCK_PIN 6

@@ -10,7 +10,7 @@
 /////////////////////////////////////////////////////////////////////////////
 #include <Arduino.h>
 #include "PwmMotor.h"
-#include "pins.h"
+#include "globals.h"
 
 
 char readVal = '\0';
