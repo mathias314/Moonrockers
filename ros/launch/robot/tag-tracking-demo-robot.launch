@@ -2,11 +2,10 @@
   <!-- <env name="ROS_IP" value="192.168.0.100" /> --> <!-- WIRED -->
   <env name="ROS_IP" value="192.168.0.100" /> <!-- WIRELESS -->
 
-  <node name="drive_manager_node" pkg="drive_manager" type="drive_manager_node" />
-  <!-- <node name="poser_node" pkg="poser" type="poser_node" />
-  <node name="demo" pkg="design_fair_demo" type="demo.py" /> -->
+ <!--node name="drive_manager_node" pkg="drive_manager" type="drive_manager_node" /-->
+  <node name="poser_node" pkg="poser" type="poser_node" />
+  <node name="demo" pkg="design_fair_demo" type="demo.py" />
   <node name="jetson_power_mode_warning" pkg="jetson_power_mode_warning" type="check_power_mode.py" />
-  <node name="arduino" pkg="rosserial_python" type="serial_node.py">
-    <param name="~port" value="/dev/ttyACM0"/>
-  </node>
+  <!--node name="arduino" pkg="rosserial_python" type="serial_node.py">
+    <param name="~port" value="/dev/ttyACM0"/-->
 </launch>
