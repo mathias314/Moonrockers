@@ -1,78 +1,91 @@
-//////////////////////////////////////////////////////////////////////////////
-// Description: Example code for controlling a PWM motor. This uses hardware 
-// PWM so we don't have to deal with timer interrupts. 
-//
-//  Motor is controlled by the following commands over serial:
-//     - ' ' = STOP
-//     - '+' = Increase power by 10%.
-//     - '-' = Decrease power by 10%.
-//     - 'i' = Invert motor direction.
-/////////////////////////////////////////////////////////////////////////////
+/**
+ * PWM so we don't have to deal with timer interrupts. 
+ * Motor is controlled by the following commands over serial:
+ *     - ' ' = STOP  
+ *     - '+' = Increase power by 10%.
+ *     - '-' = Decrease power by 10%.
+ *     - 'i' = Invert motor direction.
+ *
+ * To Run:
+ *      pio run -t upload -c examples.ini -e pwm_motor
+ * */
 #include <Arduino.h>
 #include "PwmMotor.h"
 #include "globals.h"
+#include "Encoder.h"
 
 
 char readVal = '\0';
 float speed = 0;
 bool inverted = false;
 
-PwmMotor motor1(GATE_PIN, 1);
-PwmMotor motor2(CONVEYOR_PIN, 0);
+PwmMotor motor(4, 5);
 
+Encoder encoder(19, 324);  // 323
 
 //=====setup==============================
 void setup() {
     Serial.begin(115200);
 
     Serial.println("Initializing motor...");
-    motor1.init();
-    motor2.init();
+    motor.init();
+    
+
+    // Initialize the encoder 
+    Serial.println("Initializing encoder...");
+    encoder.init();
 }
 
 //=====loop==============================
 void loop() {
-    switch (readVal) {
-        case ' ':
-            motor1.setPower(0);
-            motor2.setPower(0);
-            Serial.println("STOP");
-            break;
-        case '+':
-        case '=':
-            motor1.setPower(motor1.getPower() + 0.1);
-            Serial.println(motor1.getPower());
-            break;
-        case '-':
-        case '_':
-            motor1.setPower(motor1.getPower() - 0.1);
-            Serial.println(motor1.getPower());
-            break;
-        case 'u':
-            motor2.setPower(motor2.getPower() + 0.1);
-            Serial.println(motor2.getPower());
-            break;
-        case 'd':
-            motor2.setPower(motor2.getPower() - 0.1);
-            Serial.println(motor2.getPower());
-            break;
-        case 'i':
-            inverted = !inverted;
-            // motor.setInverted(inverted);
-            Serial.print("Inverted: ");
-            Serial.println(inverted);
-            break;
-        default:
-            break;
+
+    if (Serial.available()) {
+        readVal = Serial.read();
+        while (Serial.available()) {
+            Serial.read();
+        }
+        switch (readVal) {
+            case ' ':
+                motor.stop();
+                Serial.println("STOP");
+                break;
+            case '+':
+            case '=':
+                motor.run(motor.getPower() + 0.1);
+                Serial.println(motor.getPower());
+                break;
+            case '-':
+            case '_':
+                motor.run(motor.getPower() - 0.1);
+                Serial.println(motor.getPower());
+                break;
+            case 'u':
+                motor.run(motor.getPower() + 0.1);
+                Serial.println(motor.getPower());
+                break;
+            case 'd':
+                motor.run(motor.getPower() - 0.1);
+                Serial.println(motor.getPower());
+                break;
+            case 'i':
+                inverted = !inverted;
+                motor.setInverted(inverted);
+                Serial.print("Inverted: ");
+                Serial.println(inverted);
+                break;
+            case 'c':
+                encoder.absTot = 0;
+                break;
+            default:
+                break;
+        }
     }
 
-    // wait for a value, read it, and clear the extra
-    while (Serial.available() <= 0) {
-        delay(100);
-    }
-    readVal = Serial.read();
-    Serial.println(readVal);
-    while (Serial.available()) {
-        Serial.read();
-    }
+    static unsigned long lastDisplay = millis();
+    if (millis() - lastDisplay > 100) {
+        Serial.print(encoder.getSpeed());
+        Serial.print(",");
+        Serial.println(encoder.estimateSpeed());
+        lastDisplay = millis();
+    } 
 }
