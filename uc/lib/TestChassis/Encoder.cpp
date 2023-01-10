@@ -18,7 +18,7 @@ Encoder * Encoder::instance;
  */
 Encoder::Encoder(int aPin, int ticksPerRotation) : Encoder(aPin, -1, ticksPerRotation) {}
 Encoder::Encoder(int aPin, int bPin, int ticksPerRotation) 
-    : aPin(aPin), bPin(bPin), ticksPerRotation(ticksPerRotation), speedFilter(5, 5, 0.99)  { //speedFilter(300, 300, 0.025)
+    : aPin(aPin), bPin(bPin), ticksPerRotation(ticksPerRotation), speedFilter(15, 15, 0.2)  { //speedFilter(300, 300, 0.025)
 }
 
 /**

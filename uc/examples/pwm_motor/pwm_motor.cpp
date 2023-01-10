@@ -13,7 +13,7 @@
 #include "PwmMotor.h"
 #include "globals.h"
 #include "Encoder.h"
-
+#include "PID.h"
 
 char readVal = '\0';
 float speed = 0;
@@ -23,9 +23,28 @@ PwmMotor motor(4, 5);
 
 Encoder encoder(19, 324);  // 323
 
+//PID(float Kp, float Ki, float Kd, float N, float sample_time);
+float kP = 0.01, kI = 0.02, kD = 0.0, N = 0.0, sampleTime = 0.005;
+PID motorPid(kP, kI, kD, N, sampleTime);
+
+void updateCoefficients()
+{
+    motorPid.setConstants(kP, kI, kD, N, sampleTime);
+
+    Serial.print("p: ");
+    Serial.print(kP);
+    Serial.print(", i: ");
+    Serial.print(kI);
+    Serial.print(", d: ");
+    Serial.print(kD);
+    Serial.print(", N: ");
+    Serial.println(N);
+}
+
 //=====setup==============================
 void setup() {
     Serial.begin(115200);
+    Serial.setTimeout(2500);
 
     Serial.println("Initializing motor...");
     motor.init();
@@ -34,10 +53,14 @@ void setup() {
     // Initialize the encoder 
     Serial.println("Initializing encoder...");
     encoder.init();
+
+    motorPid.setLimits(0.0, 1.0);
+    motorPid.setTargetLimits(-120, 120);
 }
 
 //=====loop==============================
 void loop() {
+    static bool running = false;
 
     if (Serial.available()) {
         readVal = Serial.read();
@@ -48,33 +71,41 @@ void loop() {
             case ' ':
                 motor.stop();
                 Serial.println("STOP");
+                running = false;
                 break;
             case '+':
             case '=':
-                motor.run(motor.getPower() + 0.1);
-                Serial.println(motor.getPower());
+                // motor.run(motor.getPower() + 0.1);
+                motorPid.setTarget(motorPid.getTarget() + 10);
+                // Serial.println(motorPid.getTarget());
+                running = true;
                 break;
             case '-':
             case '_':
-                motor.run(motor.getPower() - 0.1);
-                Serial.println(motor.getPower());
+                // motor.run(motor.getPower() - 0.1);
+                motorPid.setTarget(motorPid.getTarget() - 10);
+                // Serial.println(motorPid.getTarget());
+                running = true;
                 break;
-            case 'u':
-                motor.run(motor.getPower() + 0.1);
-                Serial.println(motor.getPower());
+
+            case 'p':
+                kP = Serial.parseFloat();
+                updateCoefficients();
                 break;
-            case 'd':
-                motor.run(motor.getPower() - 0.1);
-                Serial.println(motor.getPower());
-                break;
+
             case 'i':
-                inverted = !inverted;
-                motor.setInverted(inverted);
-                Serial.print("Inverted: ");
-                Serial.println(inverted);
+                kI = Serial.parseFloat();
+                updateCoefficients();
                 break;
-            case 'c':
-                encoder.absTot = 0;
+
+            case 'd':
+                kD = Serial.parseFloat();
+                updateCoefficients();
+                break;
+
+            case 'n':
+                N = Serial.parseFloat();
+                updateCoefficients();
                 break;
             default:
                 break;
@@ -82,10 +113,23 @@ void loop() {
     }
 
     static unsigned long lastDisplay = millis();
-    if (millis() - lastDisplay > 100) {
+    if (millis() - lastDisplay > 500) {
         Serial.print(encoder.getSpeed());
         Serial.print(",");
-        Serial.println(encoder.estimateSpeed());
+        Serial.print(encoder.getFilteredSpeed());
+        Serial.print(",");
+        Serial.println(motorPid.getTarget());
         lastDisplay = millis();
+    } 
+
+    static unsigned long lastUpdate = millis();
+    if (millis() - lastUpdate > 1000 * sampleTime) {
+        encoder.estimateSpeed();
+
+        if (running) {
+            motor.run(motorPid.calculateOutput(encoder.getFilteredSpeed()));
+        }
+
+        lastUpdate = millis();
     } 
 }
