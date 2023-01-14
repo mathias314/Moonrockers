@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
   videoCapture.open(0);
 
   videoCapture >> inputImage;
-  cameraParameters.readFromXMLFile("/home/nvidia/production/ros/dustin-calibration-2021-11-30.yml");
+  cameraParameters.readFromXMLFile("/home/moonrockers/repos/production/ros/dustin-calibration-2021-11-30.yml");
   //cout << "width: " << videoCapture.get(cv::CAP_PROP_FRAME_WIDTH) << " height: " <<
   //  videoCapture.get(cv::CAP_PROP_FRAME_HEIGHT) << std::endl;
   cout << "width: " << inputImage.cols << " height: " <<
