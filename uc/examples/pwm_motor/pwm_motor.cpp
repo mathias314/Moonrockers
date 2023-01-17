@@ -113,6 +113,16 @@ void loop() {
                 running = true;
                 break;
 
+            case 'm':
+                motorPid.setTarget(-220);
+                running = true;
+                break;
+
+            case 'z':
+                motorPid.setTarget(1);
+                running = true;
+                break;
+
             default:
                 break;
         }
