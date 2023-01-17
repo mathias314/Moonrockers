@@ -15,6 +15,8 @@
 #include "Encoder.h"
 #include "PID.h"
 
+#define isPos(x) ((x) > 0 ? true: false)
+
 char readVal = '\0';
 float speed = 0;
 bool inverted = false;
@@ -109,17 +111,17 @@ void loop() {
                 break;
 
             case 'f':
-                motorPid.setTarget(220);
+                motorPid.setTarget(230);
                 running = true;
                 break;
 
             case 'm':
-                motorPid.setTarget(-220);
+                motorPid.setTarget(-230);
                 running = true;
                 break;
 
             case 'z':
-                motorPid.setTarget(1);
+                motorPid.setTarget(0);
                 running = true;
                 break;
 
@@ -143,7 +145,7 @@ void loop() {
 
     static unsigned long lastUpdate = millis();
     if (millis() - lastUpdate > 1000 * sampleTime) {
-        encoder.estimateSpeed();
+        encoder.estimateSpeed(isPos(motorPid.getTarget()));
 
         if (running) {
             motor.run(motorPid.calculateOutput(encoder.getFilteredSpeed()));

@@ -64,6 +64,19 @@ void Encoder::invertDirection(bool invertDir) {
   this->invertDir = invertDir;
 }
 
+float Encoder::estimateSpeed(bool direction) {
+  // true direction = positive speed
+  if (direction)
+  {
+    this->invertDir = false;
+  }
+  else
+  {
+    this->invertDir = true;
+  }
+  return this->estimateSpeed();
+}
+
 /**
  * Update the current speed estimate and return the filtered value.
  */
@@ -87,6 +100,9 @@ float Encoder::estimateSpeed() {
 
   // Filter
   filteredSpeed = speedFilter.updateEstimate(speed);
+
+  // Update our cached speed
+  lastFilteredSpeed = filteredSpeed;
 
 
   // Return the speed
