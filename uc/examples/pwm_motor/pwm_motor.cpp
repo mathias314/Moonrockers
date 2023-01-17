@@ -19,7 +19,7 @@ char readVal = '\0';
 float speed = 0;
 bool inverted = false;
 
-PwmMotor motor(4, 5);
+PwmMotor motor(/*speedPin*/ 4, /*dirPin*/ 5);
 
 Encoder encoder(19, 324);  // 323
 
@@ -54,8 +54,8 @@ void setup() {
     Serial.println("Initializing encoder...");
     encoder.init();
 
-    motorPid.setLimits(0.0, 1.0);
-    motorPid.setTargetLimits(-120, 120);
+    motorPid.setLimits(-1.0, 1.0);
+    motorPid.setTargetLimits(-230, 230);
 }
 
 //=====loop==============================
@@ -107,17 +107,26 @@ void loop() {
                 N = Serial.parseFloat();
                 updateCoefficients();
                 break;
+
+            case 'f':
+                motorPid.setTarget(220);
+                running = true;
+                break;
+
             default:
                 break;
         }
     }
 
     static unsigned long lastDisplay = millis();
-    if (millis() - lastDisplay > 500) {
+    if (millis() - lastDisplay > 50) {
+        Serial.print("Speed:");
         Serial.print(encoder.getSpeed());
         Serial.print(",");
+        Serial.print("Filtered:");
         Serial.print(encoder.getFilteredSpeed());
         Serial.print(",");
+        Serial.print("Target:");
         Serial.println(motorPid.getTarget());
         lastDisplay = millis();
     } 
