@@ -50,6 +50,11 @@ int main(int argc, char** argv) {
       pose.position.x = markers[0].Tvec.at<float>(0);
       pose.position.y = markers[0].Tvec.at<float>(1);
       pose.position.z = markers[0].Tvec.at<float>(2);
+
+      pose.orientation.x = markers[0].Rvec.at<float>(0);
+      pose.orientation.y = markers[0].Rvec.at<float>(1);
+      pose.orientation.z = markers[0].Rvec.at<float>(2);
+
       pose_pub.publish(pose);
     }
     ros::spinOnce();
