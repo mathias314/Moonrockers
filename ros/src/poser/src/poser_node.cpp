@@ -6,7 +6,8 @@
 
 using namespace std;
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv)
+{
   cv::VideoCapture videoCapture;
   aruco::MarkerDetector markerDetector;
   vector<aruco::Marker> markers;
@@ -27,39 +28,63 @@ int main(int argc, char** argv) {
 
   videoCapture >> inputImage;
   cameraParameters.readFromXMLFile("dustin-calibration-2021-11-30.yml");
-  //cout << "width: " << videoCapture.get(cv::CAP_PROP_FRAME_WIDTH) << " height: " <<
-  //  videoCapture.get(cv::CAP_PROP_FRAME_HEIGHT) << std::endl;
-  cout << "width: " << inputImage.cols << " height: " <<
-    inputImage.rows << std::endl;
+  // cout << "width: " << videoCapture.get(cv::CAP_PROP_FRAME_WIDTH) << " height: " <<
+  //   videoCapture.get(cv::CAP_PROP_FRAME_HEIGHT) << std::endl;
+  cout << "width: " << inputImage.cols << " height: " << inputImage.rows << std::endl;
 
-  if (inputImage.empty()) cout << ">> Image empty!" << std::endl;
-  if (!cameraParameters.isValid()) cout << "Camera parameters not valid!" << std::endl;
+  if (inputImage.empty())
+    cout << ">> Image empty!" << std::endl;
+  if (!cameraParameters.isValid())
+    cout << "Camera parameters not valid!" << std::endl;
 
   while (ros::ok())
   {
     // take in an image and attempt to detect markers
     videoCapture.read(inputImage);
-    //cv::imshow("Camera View", inputImage);
-    if (inputImage.empty()) cout << "Image empty!" << std::endl;
+    // cv::imshow("Camera View", inputImage);
+    if (inputImage.empty())
+      cout << "Image empty!" << std::endl;
     markers = markerDetector.detect(inputImage, cameraParameters, markerSize);
 
     // send out the pose according to the first detected marker
     if (markers.size())
     {
-      markers[0].calculateExtrinsics(markerSize, cameraParameters);
-      pose.position.x = markers[0].Tvec.at<float>(0);
-      pose.position.y = markers[0].Tvec.at<float>(1);
-      pose.position.z = markers[0].Tvec.at<float>(2);
+      float avgX = 0;
+      float avgY = 0;
+      float avgZ = 0;
 
-      pose.orientation.x = markers[0].Rvec.at<float>(0);
-      pose.orientation.y = markers[0].Rvec.at<float>(1);
-      pose.orientation.z = markers[0].Rvec.at<float>(2);
+      float avgOrientationX = 0;
+      float avgOrientationY = 0;
+      float avgOrientationZ = 0;
+
+      const int numIterations = 25;
+
+      for (int i = 0; i < numIterations; i++)
+      {
+        markers[0].calculateExtrinsics(markerSize, cameraParameters);
+        avgX += markers[0].Tvec.at<float>(0);
+        avgY += markers[0].Tvec.at<float>(1);
+        avgZ += markers[0].Tvec.at<float>(2);
+
+        avgOrientationX += markers[0].Rvec.at<float>(0);
+        avgOrientationY += markers[0].Rvec.at<float>(1);
+        avgOrientationZ += markers[0].Rvec.at<float>(2);
+      }
+
+      pose.position.x = avgX / numIterations;
+      pose.position.y = avgY / numIterations;
+      pose.position.z = avgZ / numIterations;
+
+      pose.orientation.x = avgOrientationX / numIterations;
+      pose.orientation.y = avgOrientationY / numIterations;
+      pose.orientation.z = avgOrientationZ / numIterations;
 
       pose_pub.publish(pose);
     }
+
     ros::spinOnce();
     rate.sleep();
   }
-  
+
   return 0;
 }
