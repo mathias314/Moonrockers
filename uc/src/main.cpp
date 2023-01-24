@@ -9,6 +9,7 @@
 #include "globals.h"
 #include "PwmMotor.h"
 #include <Adafruit_NeoPixel.h>
+#include "canFuncs.h"
 
 
 // pin numbers
@@ -27,29 +28,6 @@ int collectionPlungeLowerEndstopPin = 38;
 int collectionPlungeUpperEndstopPin = 40;
 float collectionPlungeLastPower = 0;
 
-#include <mcp_can.h>
-#include "can-serial.h"
-#include "mcp2515_can.h"
-#include "mcp_can.h"
-
-const int spiCSPin = 9;
-mcp2515_can CAN(spiCSPin);  // Set CS pin
-
-bool canInit() {
-    return CAN.begin(CAN_1000KBPS, MCP_16MHz) == CAN_OK;   //! Make sure oscilator set to correct value!!!
-}
-
-void canSend(unsigned long id, uint8_t ext, uint8_t rtrBit, uint8_t len, const uint8_t *dat) {
-    //sendMsgBuf(unsigned long id, byte ext, byte len, const byte *buf)
-    CAN.sendMsgBuf(id, ext, len, dat);
-}
-
-unsigned canReceive(uint32_t *id, uint8_t *dat) {
-    byte len = 0;
-    CAN.readMsgBuf(&len, dat);
-    *id = CAN.getCanId();
-    return len;
-}
 
 // --------Motor control stuff-----------------
 // SPARK motor definitions

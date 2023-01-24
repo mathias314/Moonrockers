@@ -3,7 +3,7 @@
  */
 #include "Potentiometer.h"
 
-const float RAD_US_TO_RPM = 1000 * 1000 * 60 / (2*PI);
+const float RAD_US_TO_RPM = 1000 * 1000ul * 60 / (2*PI);
 
 Potentiometer::Potentiometer() : angleFilter(4, 4, 1.5), velocityFilter(4, 4, 0.1) {
 }
