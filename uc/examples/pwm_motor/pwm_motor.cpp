@@ -15,7 +15,7 @@
 #include "Encoder.h"
 #include "PID.h"
 
-#define isPos(x) ((x) > 0 ? true: false)
+#define isPos(x) ((x) > 0 ? true : false)
 
 char readVal = '\0';
 float speed = 0;
@@ -145,7 +145,8 @@ void loop() {
 
     static unsigned long lastUpdate = millis();
     if (millis() - lastUpdate > 1000 * sampleTime) {
-        encoder.estimateSpeed(isPos(motorPid.getTarget()));
+        // Use the sign of the motor's power to inform direction
+        encoder.estimateSpeed(isPos(motor.getPower()));
 
         if (running) {
             motor.run(motorPid.calculateOutput(encoder.getFilteredSpeed()));
