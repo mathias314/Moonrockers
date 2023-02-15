@@ -54,6 +54,10 @@ void PwmMotor::run(float power) {
     }
 }
 
+void PwmMotor::runTarget() {
+    this->run(target);
+}
+
 /**
  * Get the currently set power value. 
  * 
@@ -63,6 +67,13 @@ float PwmMotor::getPower() {
     return power;
 }
 
+void PwmMotor::setTarget(float target) {
+    this->target = target;
+}
+
+float PwmMotor::getTarget() {
+    return target;
+}
 
 /**
  * Stop the motor.

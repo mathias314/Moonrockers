@@ -54,7 +54,8 @@ void setup() {
 
     // Initialize the encoder 
     Serial.println("Initializing encoder...");
-    encoder.init();
+    if (!encoder.init())
+        Serial.println("Encoder Initialization failure");
 
     motorPid.setLimits(-1.0, 1.0);
     motorPid.setTargetLimits(-230, 230);
