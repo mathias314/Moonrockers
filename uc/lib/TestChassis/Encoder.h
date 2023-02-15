@@ -8,13 +8,14 @@
 #include "Arduino.h"
 #include <SimpleKalmanFilter.h> // https://github.com/denyssene/SimpleKalmanFilter
 
+
 class Encoder
 {
 public:
     Encoder(int aPin, int bPin, int ticksPerRotation);
     Encoder(int aPin, int ticksPerRotation);
 
-    void init();
+    bool init();
     float estimateSpeed();
     float estimateSpeed(bool direction);
     float getSpeed();
@@ -27,9 +28,45 @@ private:
     void tick(bool trigA);
 
     // Static stuff for interrupt handling
-    static void isrA();
-    static void isrB();
-    static Encoder *instance;
+    static void isr0A();
+    static void isr1A();
+    static void isr2A();
+    static void isr3A();
+    static void isr4A();
+    static void isr5A();
+    static void isr6A();
+    static void isr7A();
+    static void isr8A();
+    static void isr9A();
+
+    static void isr0B();
+    static void isr1B();
+    static void isr2B();
+    static void isr3B();
+    static void isr4B();
+    static void isr5B();
+    static void isr6B();
+    static void isr7B();
+    static void isr8B();
+    static void isr9B();
+
+    static int numInstances;
+    
+    static Encoder *instance0;
+    static Encoder *instance1;
+    static Encoder *instance2;
+    static Encoder *instance3;
+    static Encoder *instance4;
+    static Encoder *instance5;
+    static Encoder *instance6;
+    static Encoder *instance7;
+    static Encoder *instance8;
+    static Encoder *instance9;
+
+    // private methods for binding interrupts
+    void bindInterruptA(int aPin);
+    void bindInterruptB(int bPin);
+    bool bindInstance();
 
     // Pins and pin registers
     int aPin, bPin = -1;
