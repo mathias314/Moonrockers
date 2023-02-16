@@ -19,7 +19,6 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "SparkMax.h"
-#include "PwmMotor.h"
 #include "globals.h"
 
 //! Use this to select the type of CAN module being used!
@@ -67,9 +66,7 @@ void canSend(unsigned long id, uchar ext, uchar rtrBit, uchar len, const uchar *
 }
 #endif
 
-SparkMax motor(5);
-
-PwmMotor pwmMotor(GATE_PIN, GATE_PWM_CHANNEL);
+SparkMax motor(1);
 
 //Servo collectionChainDrive;
 
@@ -102,11 +99,9 @@ void setup() {
     Serial.println("Clearing faults...");
     motor.clearFaults();
 
-    pwmMotor.init();
-
-    Serial.println("LED pin...");
-    pinMode(STAT_LED, OUTPUT);
-    digitalWrite(STAT_LED, LOW);
+    //Serial.println("LED pin...");
+    //pinMode(STAT_LED, OUTPUT);
+    //digitalWrite(STAT_LED, LOW);
     Serial.println("Starting main loop.");
 }
 
@@ -128,7 +123,6 @@ void loop() {
     switch (readVal) {
     case ' ': // STOP
         motor.setPower(0.0);
-        pwmMotor.setPower(0);
         Serial.println("[stop]");
         break;
     case 'r': // Percent output control
@@ -150,10 +144,6 @@ void loop() {
         motor.setPosition(val);
         Serial.println("[position]:");
         Serial.println(val);
-        break;
-    case 's':
-        pwmMotor.setPower(0.2);
-        Serial.println("[servo]");
         break;
     default:
         break;

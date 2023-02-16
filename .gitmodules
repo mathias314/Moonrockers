@@ -1,0 +1,3 @@
+[submodule "uc/lib/FrcMotorControllers"]
+	path = uc/lib/FrcMotorControllers
+	url = https://gitlab.com/sdmines-open/frc-motor-controllers.git

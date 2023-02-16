@@ -20,7 +20,7 @@
 #else
     // CAN Bus pins
     #define CAN_INT_PIN 9
-    #define CAN_CS_PIN 8
+    #define CAN_CS_PIN 10
 
     // Pivot sensor pins
     #define FL_PIVOT_SENSOR_PIN A0
