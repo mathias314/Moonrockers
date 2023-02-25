@@ -8,6 +8,8 @@
 #include "Arduino.h"
 #include <SimpleKalmanFilter.h> // https://github.com/denyssene/SimpleKalmanFilter
 
+#define maxInstances 10
+
 
 class Encoder
 {

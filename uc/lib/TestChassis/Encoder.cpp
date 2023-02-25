@@ -74,12 +74,12 @@ bool Encoder::init() {
  * @return True if an instance was binded, false if all instances are already binded
  */
 bool Encoder::bindInstance() {
+  Serial.println(numInstances);
   // make sure we aren't at max instances
-  if (numInstances + 1 > 5)
+  if (numInstances >= maxInstances) {
+    Serial.println("***Failing by max instances***");
     return false;
-
-  // increment the static counter of motors
-  numInstances++;
+  }
 
   // bind this instance of the class to a static instance for ISR access
   switch (numInstances) {
@@ -101,9 +101,26 @@ bool Encoder::bindInstance() {
     case 5:
       instance5 = this;
       break;
+    case 6:
+      instance6 = this;
+      break;
+    case 7:
+      instance7 = this;
+      break;
+    case 8:
+      instance8 = this;
+      break;
+    case 9:
+      instance9 = this;
+      break;
     default:
+      Serial.println("***Failing by default***");
       return false;
   }
+
+  // increment the static counter of motors
+  numInstances++;
+
   return true;
 }
 
