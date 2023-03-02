@@ -46,19 +46,22 @@ bool Encoder::init() {
     
     //Set up the encoder interrupt pin
     bindInterruptA(aPin);
+    #ifdef ARDUINO_ARCH_AVR
+      // Get the register and bit for the pins to make the ISR a bit faster
+      aPinRegister = portInputRegister(digitalPinToPort(aPin));
+      aPinBit = digitalPinToBitMask(aPin);
+    #endif
 
-    // Get the register and bit for the pins to make the ISR a bit faster
-    aPinRegister = portInputRegister(digitalPinToPort(aPin));
-    aPinBit = digitalPinToBitMask(aPin);
-    
     // Same for b pin if we have it (otherwise, treat this as a tach)
     if (bPin != -1) {
       pinMode(bPin, INPUT_PULLUP);
       bindInterruptB(bPin);
-      bPinRegister = portInputRegister(digitalPinToPort(bPin));
-      bPinBit = digitalPinToBitMask(bPin);
+      #ifdef ARDUINO_ARCH_AVR
+        bPinRegister = portInputRegister(digitalPinToPort(bPin));
+        bPinBit = digitalPinToBitMask(bPin);
+      #endif
     }
-    
+
     //initialize the timer
     lastTickTime = micros();
     lastEstTime = lastTickTime;
@@ -321,8 +324,20 @@ void Encoder::tick(bool trigA) {
     ++ticks;
   } else {
     // Get current pin values
-    bool aLevel = (*aPinRegister) & aPinBit;
-    bool bLevel = (*bPinRegister) & bPinBit;
+    #ifdef ARDUINO_ARCH_SAM
+      bool aLevel = digitalRead(aPin);
+      bool bLevel = digitalRead(bPin);
+    #endif
+
+    #ifdef ARDUINO_ARCH_SAMD
+      bool aLevel = digitalRead(aPin);
+      bool bLevel = digitalRead(bPin);
+    #endif
+
+    #ifdef ARDUINO_ARCH_AVR
+      bool aLevel = (*aPinRegister) & aPinBit;
+      bool bLevel = (*bPinRegister) & bPinBit;
+    #endif
 
     // Increase or decrease depending on combination and which pin triggered the interrupt
     if (trigA != (aLevel == bLevel)) {
