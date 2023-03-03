@@ -119,6 +119,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   /usr/local/include/aruco
   /usr/include/opencv4
+  /usr/include/eigen3
 )
 
 ## Declare a C++ library
@@ -153,6 +154,7 @@ find_library(lib_opencv_imgproc opencv_imgproc /usr/local/lib)
 find_library(lib_opencv_videoio opencv_videoio /usr/local/lib)
 find_library(lib_opencv_highgui opencv_highgui /usr/local/lib)
 find_library(lib_aruco aruco /usr/local/lib)
+find_library(lib_roslib roslib /opt/ros/noetic/lib)
 target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
   ${lib_opencv_imgcodecs}
@@ -161,6 +163,7 @@ target_link_libraries(${PROJECT_NAME}_node
   ${lib_opencv_videoio}
   ${lib_opencv_highgui}
   ${lib_aruco}
+  ${lib_roslib}
 )
 
 #############
