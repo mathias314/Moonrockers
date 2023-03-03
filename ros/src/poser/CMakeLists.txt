@@ -118,7 +118,7 @@ include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
   /usr/local/include/aruco
-  /usr/local/include/opencv4
+  /usr/include/opencv4
 )
 
 ## Declare a C++ library

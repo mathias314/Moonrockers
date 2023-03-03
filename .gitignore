@@ -2,3 +2,5 @@
 *.swp
 # Ghostwriter Markdown editor backup
 *.backup
+# Catkin top level CMake file
+ros/src/CMakeLists.txt
