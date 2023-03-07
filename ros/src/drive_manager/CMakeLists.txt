@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   gamepad_msgs
+  moon_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -107,7 +108,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES drive_manager
 #  CATKIN_DEPENDS roscpp rospy std_msgs
-  CATKIN_DEPENDS gamepad_msgs
+  CATKIN_DEPENDS gamepad_msgs moon_msgs
 #  DEPENDS system_lib
 )
 

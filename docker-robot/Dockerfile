@@ -37,6 +37,17 @@ RUN cmake ..
 RUN make -j4
 RUN make install
 
+# install YouCompleteMe
+ADD resources/.vimrc /root/
+RUN git clone https://github.com/VundleVim/Vundle.vim.git /root/.vim/bundle/Vundle.vim
+RUN vim +:PluginInstall +:qa
+RUN apt install -y build-essential cmake vim-nox python3-dev
+# this isn't a requirement of YouCompleteMe itself, but we need to use
+#  "catkin build" instead of "catkin_make" for YouCompleteMe to work with ROS
+RUN apt install -y python3-catkin-tools
+WORKDIR /root/.vim/bundle/YouCompleteMe
+RUN python3 install.py --clang-completer --force-sudo
+
 # add an almost-default Ubuntu 18 .bashrc
 ADD resources/.bashrc /root/.bashrc
 
