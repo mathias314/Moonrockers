@@ -25,53 +25,28 @@ char readVal = '\0';
 float speed = 0;
 bool inverted = false;
 
-
-PwmMotor motors[10] = {
-    // Drive motors
-    {/*pwmPin*/ 10, /*dirPin*/ 8},    // Drive back left
-    {/*pwmPin*/ 3, /*dirPin*/ 33},    // Drive back right
-    {/*pwmPin*/ 9, /*dirPin*/ 25},    // Drive middle left
-    {/*pwmPin*/ 2, /*dirPin*/ 29},    // Drive middle right
-    {/*pwmPin*/ 7, /*dirPin*/ 49},    // Drive front left
-    {/*pwmPin*/ 6, /*dirPin*/ 45},    // Drive front right
-    
-    // Steer motors
-    {/*pwmPin*/ 11, /*dirPin*/ 11},    // Steer back left
-    {/*pwmPin*/ 4, /*dirPin*/ 37},    // Steer back right
-    {/*pwmPin*/ 8, /*dirPin*/ 51},   // Steer front left
-    {/*pwmPin*/ 5, /*dirPin*/ 41}    // Steer front right
-};
-
-Encoder encoders[10] = {
-    // Drive encoders
-    {/*ISR Pin*/ 9, /*PPRs*/ 324},     // Drive back left
-    {/*ISR Pin*/ 32, /*PPRs*/ 324},     // Drive back right
-    {/*ISR Pin*/ 24, /*PPRs*/ 324},    // Drive middle left
-    {/*ISR Pin*/ 28, /*PPRs*/ 324},    // Drive middle right
-    {/*ISR Pin*/ 48, /*PPRs*/ 324},    // Drive front left
-    {/*ISR Pin*/ 44, /*PPRs*/ 324},    // Drive front right
-    
-    // Steer encoders
-    {/*ISR Pin*/ 10, /*PPR*/ 504},     // Steer back left
-    {/*ISR Pin*/ 36, /*PPR*/ 504},     // Steer back right
-    {/*ISR Pin*/ 52, /*PPR*/ 504},     // Steer front left
-    {/*ISR Pin*/ 40, /*PPR*/ 504}      // Steer front right
-};
-
-enum motorLocations {
-    driveBackLeft,
-    driveBackRight,
-    driveMiddleLeft,
-    driveMiddleRight,
-    driveFrontLeft,
-    driveFrontRight,
-    steerBackLeft,
-    steerBackRight,
-    steerFrontLeft,
-    steerFrontRight
-};
-
 float sampleTime = 0.005;
+
+
+enum motorLocation {BRD, MRD, FRD, BLD, MLD, FLD};
+
+PwmMotor motors[6] = {
+    {19, 22},   // BRD
+    {18, 30},   // MRD
+    {18, 34},   // FRD
+    {16, 42},   // BLD
+    {14, 50},   // MLD
+    {2, A15}    // FLD
+};
+
+Encoder encoders[6] = {
+    {23, DRIVE_TACH_RATE},  // BRD
+    {33, DRIVE_TACH_RATE},  // MRD
+    {35, DRIVE_TACH_RATE},  // FRD
+    {41, DRIVE_TACH_RATE},  // BLD
+    {43, DRIVE_TACH_RATE},  // MLD
+    {A14, DRIVE_TACH_RATE}  // FLD
+};
 
 //=====setup==============================
 void setup() {
@@ -79,98 +54,40 @@ void setup() {
     Serial.setTimeout(2500);
 
     // Initialize motors and encoders
-    Serial.println("Initializing motors...");
-    for (int i = 0; i < numMotors; i++) {
-        motors[i].init();
-        /*
-        if (!encoders[i].init()) {
-            Serial.println("***Encoder Initialization Failure***");
-            while(1);
-        }
-        */
+    for (int i = 0; i < numDriveMotors; i++) {
+        //motors[i].init();
+        //motors[i].run(.75);
+        encoders[i].init();
     }
+    //pinMode(19, OUTPUT);
+    analogWrite(15, 256/2);
 }
 
 //=====loop==============================
 void loop() {
-    static bool running = false;
-    
-    if (Serial.available()) {
-        readVal = Serial.read();
-        while (Serial.available()) {
-            Serial.read();
-        }
-        switch (readVal) {
-            case ' ':
-                for (int i = 0; i < numDriveMotors; i++) {
-                    motors[i].stop();
-                }
-                Serial.println("STOP");
-                running = false;
-                break;
-            case '+':
-            case '=':
-                for (int i = 0; i < numDriveMotors; i++) {
-                    motors[i].setTarget(motors[i].getPower() + 0.1);
-                }
-                running = true;
-                break;
-            case '-':
-            case '_':
-                for (int i = 0; i < numDriveMotors; i++) {
-                    motors[i].setTarget(motors[i].getPower() - 0.1);
-                }
-                running = true;
-                break;
-
-            case 'f':
-                for (int i = 0; i < numDriveMotors; i++) {
-                    motors[i].setTarget(1.0);
-                }
-                running = true;
-                break;
-
-            case 'm':
-                for (int i = 0; i < numDriveMotors; i++) {
-                    motors[i].setTarget(-1.0);
-                }
-                running = true;
-                break;
-
-            case 'z':
-                for (int i = 0; i < numDriveMotors; i++) {
-                    motors[i].setTarget(0.0);
-                }
-                running = true;
-                break;
-
-            case '0':
-                break;
-
-            default:
-                break;
-        }
-        
-    }
-
     static unsigned long lastDisplay = millis();
     if (millis() - lastDisplay > 50) {
-        
-        Serial.print("Target:");
-        Serial.print(motors[0].getTarget());
+        Serial.print("BRD:");
+        Serial.print(encoders[BRD].getSpeed());
+        Serial.print(", MRD:");
+        Serial.print(encoders[MRD].getSpeed());
+        Serial.print(", FRD:");
+        Serial.print(encoders[FRD].getSpeed());
+        Serial.print(", BLD:");
+        Serial.print(encoders[BLD].getSpeed());
+        Serial.print(", MLD:");
+        Serial.print(encoders[MLD].getSpeed());
+        Serial.print(", FLD:");
+        Serial.println(encoders[FLD].getSpeed());
         lastDisplay = millis();
-    } 
+    }
 
     static unsigned long lastUpdate = millis();
     if (millis() - lastUpdate > 1000 * sampleTime) {
-        float mean = 0;
+        // Use the sign of the motor's power to inform direction
         for (int i = 0; i < numDriveMotors; i++) {
-            mean += encoders[i].estimateSpeed(isPos(motors[i].getPower()));
-            if (running) {
-                motors[i].runTarget();
-            }
+            encoders[i].estimateSpeed();
         }
-
         lastUpdate = millis();
-    }
+    } 
 }
