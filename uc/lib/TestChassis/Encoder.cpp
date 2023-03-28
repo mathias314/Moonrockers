@@ -2,7 +2,6 @@
  * Class for the Encoder.
  * This class provides functions for tracking encoder ticks and determining speed.
  * 
- * Note: this class is only set up to support one encoder. Attempting to use it for more will break things.
  */
 
 #include "Encoder.h"
@@ -51,7 +50,6 @@ void Encoder::init() {
         (Encoder **)realloc(instances, instance_count * sizeof(Encoder *));
     instances[instance_count - 1] = this;
     attachInterrupt(digitalPinToInterrupt(trigPin), isrs[instance_count - 1], CHANGE);
-    
     //initialize the timer
     lastTickTime = micros();
     lastEstTime = lastTickTime;
