@@ -7,6 +7,54 @@
 #ifndef __MOONBOT_GLOBALS__
 #define __MOONBOT_GLOBALS__
 
+#ifdef ARDUINO_GRAND_CENTRAL_M4
+    // PWM Motor speed pins
+    #define BR_DRIVE_PWM_PIN 13
+    #define FR_DRIVE_PWM_PIN 6
+    #define BL_DRIVE_PWM_PIN 5
+    #define FL_DRIVE_PWM_PIN 14
+    #define MR_DRIVE_PWM_PIN 8
+    #define ML_DRIVE_PWM_PIN 3
+    #define BR_STEER_PWM_PIN 9
+    #define FR_STEER_PWM_PIN 7
+    #define BL_STEER_PWM_PIN 4
+    #define FL_STEER_PWM_PIN 2
+
+    // PWM Motor direction pins
+    #define BR_DRIVE_DIR_PIN 34
+    #define FR_DRIVE_DIR_PIN 48
+    #define BL_DRIVE_DIR_PIN 30
+    #define FL_DRIVE_DIR_PIN 22
+    #define MR_DRIVE_DIR_PIN 42
+    #define ML_DRIVE_DIR_PIN 26
+    #define BR_STEER_DIR_PIN 40
+    #define FR_STEER_DIR_PIN 44
+    #define BL_STEER_DIR_PIN 28
+    #define FL_STEER_DIR_PIN 24
+
+    // Encoder pins
+    #define BR_DRIVE_ENC_PIN 35
+    #define FR_DRIVE_ENC_PIN 49
+    #define BL_DRIVE_ENC_PIN 31
+    #define FL_DRIVE_ENC_PIN 23
+    #define MR_DRIVE_ENC_PIN 43
+    #define ML_DRIVE_ENC_PIN 27
+    #define BR_STEER_ENC_PIN 41
+    #define FR_STEER_ENC_PIN 45
+    #define BL_STEER_ENC_PIN 29
+    #define FL_STEER_ENC_PIN 25
+
+    // Potentiometer pins
+    #define BR_POT_PIN A0
+    #define FR_POT_PIN A6
+    #define BL_POT_PIN A4
+    #define FL_POT_PIN A2
+
+    // Encoder tachometer rates
+    #define DRIVE_TACH_RATE 324
+    #define STEER_TACH_RATE 504
+#endif
+
 #ifdef ESP32
     // CAN Bus pins
     #define CAN_INT_PIN 9
