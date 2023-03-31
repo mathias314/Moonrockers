@@ -1,5 +1,5 @@
-# ROS Docker Container
-This directory contains (almost) everything you need to run the custom ROS Docker container on your laptop. This makes it easy to run the control room side ROS code without worrying about version compatibility between your OS and different software versions. The one big prerequisite to meet: you MUST be using a relatively recent Linux-based operating system. I (@7314739) was running the container under Ubuntu 21.10 as of spring 2022, but it should work on versions that are a few years old as well.
+# ROS Docker Container - Robot
+This Docker container is set up to run the robot ROS code on either a Jetson Nano or a laptop for easy development without using a Jetson.
 
 ## Installing Docker
 Follow the instructions on [this page](https://docs.docker.com/engine/install/) to install the Docker Engine. Click on the name of your distribution in the table under the Server heading. If you're using some variation of Ubuntu (Lubuntu, Xubuntu, etc), select Ubuntu. I recommend following the "Install using the repository" instructions. You do **not** need to follow step 2 of "Install Docker Engine", step 1 will grab the default version for you.
