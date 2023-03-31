@@ -12,15 +12,32 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 
 # bootstrap rosdep
 RUN rosdep init && \
-  rosdep update --rosdistro $ROS_DISTRO
+    rosdep update --rosdistro $ROS_DISTRO
 
 # install ros packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-noetic-ros-base=1.5.0-1* \
     && rm -rf /var/lib/apt/lists/*
-    
-# ----- Below this line added by Dustin for Moonrockers -----
+
+# ----- Below this line added for Moonrockers -----
 RUN apt update && \
-apt install -y git python3-pip xauth vim tmux iproute2 python3-tk
+    apt install -y git python3-pip xauth vim tmux iproute2 python3-tk \
+    python3-opencv libopencv-dev libeigen3-dev net-tools iputils-ping
 
 RUN pip3 install pysimplegui
+
+# compile the ArUco library
+# downloaded from https://sourceforge.net/projects/aruco/
+ADD resources/aruco-3.1.12.tar.gz /build/aruco/
+# Docker automatically extracts the archive, so we can go straight to the directory
+WORKDIR /build/aruco/aruco-3.1.12
+RUN mkdir build
+WORKDIR build
+RUN cmake ..
+RUN make -j4
+RUN make install
+
+# add an almost-default Ubuntu 18 .bashrc
+ADD resources/.bashrc /root/.bashrc
+
+WORKDIR /workspace/production/ros

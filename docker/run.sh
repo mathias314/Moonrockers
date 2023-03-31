@@ -29,7 +29,6 @@ wd=$(pwd)
 docker run -it \
 \
 `### mount some useful directories` \
--v ${HOME}/.bashrc:/root/.bashrc \
 -v ${wd}/workspace:/workspace \
 -v ${wd}/..:/workspace/production \
 \
@@ -37,8 +36,8 @@ docker run -it \
 --privileged -v /dev/bus/usb:/dev/bus/usb \
 \
 `### ROS IP environment variables so this laptop can talk to the Jetson` \
--e "ROS_MASTER_URI=http://${jetson_ip}" \
--e "ROS_IP=${ip}" \
+`### -e "ROS_MASTER_URI=http://${jetson_ip}"` \
+`### -e "ROS_IP=${ip}"` \
 \
 `### this is for X forwarding so we can run GUIs in the container` \
 -e DISPLAY \
