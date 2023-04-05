@@ -21,9 +21,9 @@ char readVal = '\0';
 float speed = 0;
 bool inverted = false;
 
-PwmMotor motor(/*speedPin*/ 4, /*dirPin*/ 5);
+PwmMotor motor(/*speedPin*/ BR_DRIVE_PWM_PIN, /*dirPin*/ BR_DRIVE_DIR_PIN);
 
-Encoder encoder(19, 324);  // 323
+Encoder encoder(BR_DRIVE_ENC_PIN, DRIVE_TACH_RATE);  // 323
 
 //PID(float Kp, float Ki, float Kd, float N, float sample_time);
 float kP = 0.01, kI = 0.02, kD = 0.0, N = 0.0, sampleTime = 0.005;
@@ -79,6 +79,7 @@ void loop() {
             case '=':
                 // motor.run(motor.getPower() + 0.1);
                 motorPid.setTarget(motorPid.getTarget() + 10);
+                motor.setTarget(motor.getPower() + 0.1);
                 // Serial.println(motorPid.getTarget());
                 running = true;
                 break;
@@ -86,6 +87,7 @@ void loop() {
             case '_':
                 // motor.run(motor.getPower() - 0.1);
                 motorPid.setTarget(motorPid.getTarget() - 10);
+                motor.setTarget(motor.getPower() - 0.1);
                 // Serial.println(motorPid.getTarget());
                 running = true;
                 break;
@@ -112,16 +114,19 @@ void loop() {
 
             case 'f':
                 motorPid.setTarget(230);
+                motor.setTarget(1.0);
                 running = true;
                 break;
 
             case 'm':
                 motorPid.setTarget(-230);
+                motor.setTarget(-1.0);
                 running = true;
                 break;
 
             case 'z':
                 motorPid.setTarget(0);
+                motor.setTarget(0);
                 running = true;
                 break;
 
@@ -139,17 +144,17 @@ void loop() {
         Serial.print(encoder.getFilteredSpeed());
         Serial.print(",");
         Serial.print("Target:");
-        Serial.println(motorPid.getTarget());
+        Serial.println(motor.getTarget());
         lastDisplay = millis();
     } 
 
     static unsigned long lastUpdate = millis();
     if (millis() - lastUpdate > 1000 * sampleTime) {
         // Use the sign of the motor's power to inform direction
-        encoder.estimateSpeed(isPos(motor.getPower()));
+        encoder.estimateSpeed();
 
         if (running) {
-            motor.run(motorPid.calculateOutput(encoder.getFilteredSpeed()));
+            motor.runTarget();
         }
 
         lastUpdate = millis();
