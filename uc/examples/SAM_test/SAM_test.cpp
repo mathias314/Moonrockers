@@ -43,7 +43,7 @@ enum motorLocation
     FLS
 };
 
-/*
+
 PwmMotor motors[10] = {
     {13, 34}, // BRD x
     {6, 48},  // FRD x
@@ -56,8 +56,8 @@ PwmMotor motors[10] = {
     {4, 28},  // BLS x
     {2, 24}   // FLS x
 };
-*/
 
+/*
 // FOR MEGA ONLY
 PwmMotor motors[10] = {
     {0, 0}, // BRD x
@@ -71,8 +71,8 @@ PwmMotor motors[10] = {
     {0, 0},  // BLS x
     {0, 0}   // FLS x
 };
+*/
 
-/*
 Encoder encoders[10] = {
     {35, DRIVE_TACH_RATE}, // BRD x
     {49, DRIVE_TACH_RATE}, // FRD x
@@ -85,8 +85,9 @@ Encoder encoders[10] = {
     {29, STEER_TACH_RATE}, // BLS x
     {25, STEER_TACH_RATE}  // FLS x
 };
-*/
 
+
+/*
 // FOR MEGA ONLY
 Encoder encoders[10] = {
     {0, DRIVE_TACH_RATE}, // BRD x
@@ -100,6 +101,7 @@ Encoder encoders[10] = {
     {0, STEER_TACH_RATE}, // BLS x
     {0, STEER_TACH_RATE}  // FLS x
 };
+*/
 
 enum potLocation
 {
@@ -138,14 +140,9 @@ void setup()
     motorPid.setLimits(-1.0, 1.0);
 }
 
-int power = 0;
 //=====loop==============================
 void loop()
 {
-    if (power > 100)
-    {
-        power = 0;
-    }
     // Read serial input
     static bool running = false;
     int motorIndex = BLD;
@@ -198,9 +195,9 @@ void loop()
     static unsigned long lastDisplay = millis();
     if (millis() - lastDisplay > 50)
     {
-        Serial.print("Power: ");
+        Serial.print("Power:");
         Serial.print(motors[motorIndex].getPower() * 220);
-        Serial.print("\tEncoder: ");
+        Serial.print(", Encoder:");
         Serial.println(encoders[motorIndex].getFilteredSpeed());
         lastDisplay = millis();
     }
@@ -220,18 +217,9 @@ void loop()
             potentiometers[i].update();
         }
         */
-        encoders[BLD].estimateSpeed();
-        //motorPid.setTarget(power / 100.0 * 230);
-        //motors[motorIndex].run(motorPid.calculateOutput(encoders[motorIndex].getFilteredSpeed()));
-        motors[motorIndex].run(.97);
+        encoders[motorIndex].estimateSpeed();
+        motorPid.setTarget(230);
+        motors[motorIndex].run(motorPid.calculateOutput(encoders[motorIndex].getFilteredSpeed()));
         lastUpdate = millis();
-    }
-
-    static unsigned long powerUpdate = millis();
-    if (millis() - powerUpdate > 100)
-    {
-        power += 1;
-        powerUpdate = millis();
-    
     }
 }

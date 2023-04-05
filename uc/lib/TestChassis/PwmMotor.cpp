@@ -50,7 +50,7 @@ void PwmMotor::run(float power) {
         analogWrite(speedPin, 128+127 * abs(power));
     } else {
         digitalWrite(dirPin, (power < 0));
-        analogWrite(speedPin, 256.0 * abs(power));
+        analogWrite(speedPin, 255.0 * abs(power));
     }
 }
 
