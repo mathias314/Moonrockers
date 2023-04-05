@@ -26,7 +26,6 @@ float speed = 0;
 bool inverted = false;
 
 float kP = 0.01, kI = 0.02, kD = 0.0, N = 0.0, sampleTime = 0.005;
-PID motorPid(kP, kI, kD, N, sampleTime);
 
 // enum motorLocation {BRD, MRD, FRD, BLD, MLD, FLD, BRS, FRS, BLS, BLS};
 enum motorLocation
@@ -86,6 +85,14 @@ Encoder encoders[10] = {
     {25, STEER_TACH_RATE}  // FLS x
 };
 
+PID drivePids[6] = {
+    {kP, kI, kD, N, sampleTime},
+    {kP, kI, kD, N, sampleTime},
+    {kP, kI, kD, N, sampleTime},
+    {kP, kI, kD, N, sampleTime},
+    {kP, kI, kD, N, sampleTime},
+    {kP, kI, kD, N, sampleTime}
+};
 
 /*
 // FOR MEGA ONLY
@@ -136,8 +143,14 @@ void setup()
     {
         potentiometers[i].init();
     }
-    motorPid.setTargetLimits(-230, 230);
-    motorPid.setLimits(-1.0, 1.0);
+
+    // Initialize PID
+    for (int i = 0; i < numDriveMotors; i++)
+    {
+        drivePids[i].setTarget(0);
+        drivePids[i].setTargetLimits(-230, 230);
+        drivePids[i].setLimits(-1.0, 1.0);
+    }
 }
 
 //=====loop==============================
@@ -158,32 +171,32 @@ void loop()
         {
         case '+':
         case '=':
-            motors[motorIndex].run(motors[motorIndex].getPower() + 0.2);
+            drivePids[motorIndex].setTarget(drivePids[motorIndex].getTarget() + 20);
             //motors[motorIndex].run(0.75);
             running = true;
             break;
         case '-':
         case '_':
-            motors[motorIndex].run(motors[motorIndex].getPower() - 0.2);
+            drivePids[motorIndex].setTarget(drivePids[motorIndex].getTarget() - 20);
             //motors[motorIndex].run(-0.75);
             running = true;
             break;
 
         case 'f':
             //motors[motorIndex].setTarget(1.0);
-            motors[motorIndex].run(1.0);
+            drivePids[motorIndex].setTarget(230);
             running = true;
             break;
 
         case 'm':
             //motors[motorIndex].setTarget(-1.0);
-            motors[motorIndex].run(-1.0);
+            drivePids[motorIndex].setTarget(-230);
             running = true;
             break;
 
         case 'z':
             //motors[motorIndex].setTarget(0.0);
-            motors[motorIndex].run(0.0);
+            drivePids[motorIndex].setTarget(0.0);
             running = true;
             break;
 
@@ -192,11 +205,15 @@ void loop()
         }
     }
 
+    drivePids[motorIndex].calculateCoeffs(encoders[motorIndex].getFilteredSpeed());
+
     static unsigned long lastDisplay = millis();
     if (millis() - lastDisplay > 50)
     {
         Serial.print("Power:");
-        Serial.print(motors[motorIndex].getPower() * 220);
+        Serial.print(motors[motorIndex].getPower() * 230);
+        Serial.print(", Target:");
+        Serial.print(drivePids[motorIndex].getTarget());
         Serial.print(", Encoder:");
         Serial.println(encoders[motorIndex].getFilteredSpeed());
         lastDisplay = millis();
@@ -218,8 +235,7 @@ void loop()
         }
         */
         encoders[motorIndex].estimateSpeed();
-        motorPid.setTarget(230);
-        motors[motorIndex].run(motorPid.calculateOutput(encoders[motorIndex].getFilteredSpeed()));
+        motors[motorIndex].run(drivePids[motorIndex].calculateOutput(encoders[motorIndex].getFilteredSpeed()));
         lastUpdate = millis();
     }
 }
