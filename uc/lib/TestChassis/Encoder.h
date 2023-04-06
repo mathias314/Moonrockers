@@ -8,9 +8,6 @@
 #include "Arduino.h"
 #include <SimpleKalmanFilter.h>  // https://github.com/denyssene/SimpleKalmanFilter
 
-#define STEER_TACH_RATE 504
-#define DRIVE_TACH_RATE 324
-
 class Encoder {
 public:
     Encoder(int trigPin, float ticksPerRotation);

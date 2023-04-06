@@ -33,7 +33,7 @@ void (*Encoder::isrs[])() = {
  * @param ticksPerRotation - Number of encoder ticks per rotation.
  */
 Encoder::Encoder(int trigPin, float ticksPerRotation) 
-    : trigPin(trigPin), ticksPerRotation(ticksPerRotation), speedFilter(40, 40, 0.25)  { //speedFilter(300, 300, 0.025)
+    : trigPin(trigPin), ticksPerRotation(ticksPerRotation), speedFilter(50, 50, 0.25)  { //speedFilter(300, 300, 0.025)
     tickConversion = 1000000ul * 60  / ticksPerRotation;
 }
 
