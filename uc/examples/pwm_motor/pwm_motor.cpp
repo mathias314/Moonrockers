@@ -26,12 +26,12 @@ PwmMotor motor(/*speedPin*/ BR_DRIVE_PWM_PIN, /*dirPin*/ BR_DRIVE_DIR_PIN);
 Encoder encoder(BR_DRIVE_ENC_PIN, DRIVE_TACH_RATE);  // 323
 
 //PID(float Kp, float Ki, float Kd, float N, float sample_time);
-float kP = 0.01, kI = 0.02, kD = 0.0, N = 0.0, sampleTime = 0.005;
-PID motorPid(kP, kI, kD, N, sampleTime);
+float kP = 0.01, kI = 0.02, kD = 0.0, n = 0.0, sampleTime = 0.005;
+PID motorPid(kP, kI, kD, n, sampleTime);
 
 void updateCoefficients()
 {
-    motorPid.setConstants(kP, kI, kD, N, sampleTime);
+    motorPid.setConstants(kP, kI, kD, n, sampleTime);
 
     Serial.print("p: ");
     Serial.print(kP);
@@ -40,7 +40,7 @@ void updateCoefficients()
     Serial.print(", d: ");
     Serial.print(kD);
     Serial.print(", N: ");
-    Serial.println(N);
+    Serial.println(n);
 }
 
 //=====setup==============================
@@ -108,7 +108,7 @@ void loop() {
                 break;
 
             case 'n':
-                N = Serial.parseFloat();
+                n = Serial.parseFloat();
                 updateCoefficients();
                 break;
 

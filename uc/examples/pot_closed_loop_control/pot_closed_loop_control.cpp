@@ -14,11 +14,11 @@ MoonBot robot(UPDATE_INTERVAL / 1000.0);
 
 MoonBot::Joint mtrToControl = MoonBot::BACK_LEFT;
 
-float kp = PIV_VEL_KP, ki = PIV_VEL_KI, kd = PIV_VEL_KD, N = PIV_VEL_N; 
+float kp = PIV_VEL_KP, ki = PIV_VEL_KI, kd = PIV_VEL_KD, n = PIV_VEL_N; 
 
 void updateCoefficients()
 {
-    robot.setPivotPIDConstants(mtrToControl, kp, ki, kd, N);
+    robot.setPivotPIDConstants(mtrToControl, kp, ki, kd, n);
 
     Serial.print("p: ");
     Serial.print(kp);
@@ -27,7 +27,7 @@ void updateCoefficients()
     Serial.print(", d: ");
     Serial.print(kd);
     Serial.print(", N: ");
-    Serial.println(N);
+    Serial.println(n);
 }
 
 //=====setup================================================================
@@ -112,7 +112,7 @@ void loop() {
             break;
 
         case 'n':
-            N = Serial.parseFloat();
+            n = Serial.parseFloat();
             updateCoefficients();
             break;
         

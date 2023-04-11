@@ -15,7 +15,8 @@
  * @param N - filtering amount
  * @param sample_time - Time between each update in seconds.
  */
-PID::PID(float Kp, float Ki, float Kd, float N, float sample_time) {
+PID::PID(float Kp, float Ki, float Kd, float N, float sample_time)
+{
     setConstants(Kp, Ki, Kd, N, sample_time);
 }
 
@@ -28,7 +29,8 @@ PID::PID(float Kp, float Ki, float Kd, float N, float sample_time) {
  * @param N - filtering amount
  * @param sample_time - Time between each update in seconds.
  */
-void PID::setConstants(float Kp, float Ki, float Kd, float N, float sample_time) {
+void PID::setConstants(float Kp, float Ki, float Kd, float N, float sample_time)
+{
     this->Kd = Kd;
     this->Kp = Kp;
     this->Ki = Ki;
@@ -43,7 +45,8 @@ void PID::setConstants(float Kp, float Ki, float Kd, float N, float sample_time)
 /**
  * @brief Calculate the constant coeifficients for the PID control.
  */
-void PID::calculateCoeffs() {
+void PID::calculateCoeffs()
+{
     // Numerators
     b0 = Kp * (1 + N * Ts) + Ki * Ts * (1 + N * Ts) + Kd * N;
     b1 = -(Kp * (2 + N * Ts) + Ki * Ts + 2 * Kd * N);
@@ -70,7 +73,8 @@ void PID::calculateCoeffs() {
  * @param input - the current measured value
  * @return the calculated output value.
  */
-float PID::calculateOutput(float input) {
+float PID::calculateOutput(float input)
+{
     // Update ramping
     if (!rampDone)
     {
@@ -103,11 +107,47 @@ float PID::calculateOutput(float input) {
     // output = target*Kf;
 
     // Constrain and return the output
-    if (output > max) {
+    if (output > max)
+    {
         return max;
-    } else if (output < min) {
+    }
+    else if (output < min)
+    {
         return min;
     }
+    return output;
+}
+
+float PID::simpleOutput(float input)
+{
+    float error, integral, derivative;
+
+    // Calculate the output
+    error = target - input;
+    integral = integralPrev + error * Ts;
+    derivative = (error - errorPrev) / Ts;
+    output = Kp * error + Ki * integral + Kd * derivative;
+
+    // constrain output
+    if (output > max)
+        output = max;
+    else if (output < min)
+        output = min;
+
+    // roll error and integral
+    errorPrev = error;
+    integralPrev = integralPrev;
+
+    // Constrain and return the output
+    if (output > max)
+    {
+        return max;
+    }
+    else if (output < min)
+    {
+        return min;
+    }
+
     return output;
 }
 
@@ -117,7 +157,8 @@ float PID::calculateOutput(float input) {
  * @param min - the minimum returnable value.
  * @param max - the maximum returnable value.
  */
-void PID::setLimits(float min, float max) {
+void PID::setLimits(float min, float max)
+{
     this->min = min;
     this->max = max;
 }
@@ -128,7 +169,8 @@ void PID::setLimits(float min, float max) {
  * @param min - the minimum settable value.
  * @param max - the maximum settable value.
  */
-void PID::setTargetLimits(float min, float max) {
+void PID::setTargetLimits(float min, float max)
+{
     this->targetMin = min;
     this->targetMax = max;
 }
@@ -138,7 +180,8 @@ void PID::setTargetLimits(float min, float max) {
  *
  * @param target - the new target value.
  */
-void PID::setTarget(float target, bool ramp) {
+void PID::setTarget(float target, bool ramp)
+{
     this->target = target;
     rampDone = !ramp;
     reset();
@@ -164,18 +207,19 @@ void PID::setTargetRampRate(float rate)
     this->rampAmtPerUpdate = rampRate * this->Ts;
 }
 
-
 /**
  * @brief Get the current target value.
  */
-float PID::getTarget() {
+float PID::getTarget()
+{
     return target;
 }
 
 /**
  * @brief Reset the PID error and output history.
  */
-void PID::reset() {
+void PID::reset()
+{
     // Reset errors
     e0 = 0;
     e1 = 0;

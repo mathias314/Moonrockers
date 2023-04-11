@@ -53,6 +53,13 @@
     // Encoder tachometer rates
     #define DRIVE_TACH_RATE 324
     #define STEER_TACH_RATE 504
+
+    const float SAMPLE_TIME = 0.005;
+    const float MOTOR_MINIMUM_SPEEDS[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    const float DRIVE_PID_PARAMS[4] = {0.01, 0.02, 0.0, 0.0};
+    const float STEER_PID_PARAMS[4] = {0.02, 0.02, 0.0, 0.0};
+    const float POS_PID_PARAMS[4] = {350, 0, 0.0, 0.0};
+    enum PID_PARAMS {KP, KI, KD, N};
 #endif
 
 #ifdef ESP32
