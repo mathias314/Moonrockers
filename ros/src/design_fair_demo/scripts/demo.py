@@ -22,8 +22,7 @@ def poseCallback(data):
     global targetDist
     global lastTargetDistTime
 
-    # if (time.time() - lastTargetDistTime < autodriveTimeout):
-    if True:
+    if time.time() - lastTargetDistTime < autodriveTimeout:
         Tvec = (data.position.x, data.position.y, data.position.z)
         dist = math.sqrt(Tvec[0] ** 2 + Tvec[1] ** 2 + Tvec[2] ** 2)
 
