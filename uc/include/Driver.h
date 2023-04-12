@@ -71,14 +71,14 @@ private:
     // Motor controllers
     PwmMotor driveMotors[NUM_DRIVE_MOTORS];
     PwmMotor pivotMotors[NUM_PIVOTS];
-    // SparkMax driveMotors[NUM_DRIVE_MOTORS];
-    // TalonSrx pivotMotors[NUM_PIVOTS];
 
     static const unsigned NUM_MOTORS = NUM_DRIVE_MOTORS + NUM_PIVOTS;
-    //FrcMotorController *motors[NUM_MOTORS];
+    PwmMotor *motors[NUM_MOTORS];
 
     // Position feedback sensors and PID
-    PID pivotPids[NUM_PIVOTS];
+    PID drivePids[6];
+    PID steerPositionPids[4];
+    PID steerVelocityPids[4];
     float pivotTargets[NUM_PIVOTS] = {0};
 
     // Some timing stuff

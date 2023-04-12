@@ -54,6 +54,21 @@ PwmMotor motors[10] = {
     {2, 24}   // FLS x
 };
 
+/*
+PwmMotor motors[10] = {
+    {13, 34},  // BRD x
+    {6, 48},   // FRD x
+    {5, 30},   // BLD x
+    {14, 22},  // FLD x
+    {8, 42},   // MRD x
+    {3, 26},   // MLD x
+    {A12, 40}, // BRS x
+    {7, 44},   // FRS x
+    {4, 28},   // BLS x
+    {2, 24}    // FLS x
+};
+*/
+
 Encoder encoders[10] = {
     {35, DRIVE_TACH_RATE}, // BRD x
     {49, DRIVE_TACH_RATE}, // FRD x
@@ -105,6 +120,7 @@ Potentiometer potentiometers[4] = {
 float positionPidOutput[4] = {0, 0, 0, 0};
 float velocityPidOutput[4] = {0, 0, 0, 0};
 
+float time = 0;
 
 //=====setup==============================
 void setup()
@@ -130,7 +146,7 @@ void setup()
     for (int i = 0; i < NUM_DRIVE_MOTORS; i++)
     {
         drivePids[i].setTarget(0);
-        drivePids[i].setTargetLimits(-40, 40);
+        drivePids[i].setTargetLimits(-20, 20);
         drivePids[i].setLimits(-1.0, 1.0);
     }
 
@@ -139,27 +155,38 @@ void setup()
     {
         steerPositionPids[i].setTarget(0);
         steerPositionPids[i].setTargetLimits(-PI, PI);
-        steerPositionPids[i].setLimits(-40, 40);
+        steerPositionPids[i].setLimits(-70, 70);
 
         steerVelocityPids[i].setTarget(0);
-        steerVelocityPids[i].setTargetLimits(-40, 40);
+        steerVelocityPids[i].setTargetLimits(-70, 70);
         steerVelocityPids[i].setLimits(-1.0, 1.0);
     }
+
+    // Correct janky motor
+    steerPositionPids[BL].setLimits(-80, 80);
+    steerVelocityPids[BL].setTargetLimits(-80, 80);
 
     // Set motors on right side to inverted so they spin in the same direction as the other wheels
     motors[FRD].setInverted(true);
     motors[MRD].setInverted(true);
     motors[BRD].setInverted(true);
-    motors[FRS].setInverted(true);
+
     motors[FLS].setInverted(true);
     motors[BLS].setInverted(true);
+    motors[FRS].setInverted(true);
+    motors[BRS].setInverted(true);
 
-    motors[BLS].setMinimum(MOTOR_MINIMUM_SPEEDS[BLS]);
+    for (int i = 0; i < NUM_MOTORS; i++)
+    {
+        motors[i].run(0);
+    }
 }
 
 //=====loop==============================
 void loop()
 {
+    unsigned long before;
+    unsigned long after;
     // Read serial input
     static bool running = true;
 
@@ -180,6 +207,7 @@ void loop()
             }
             running = true;
             break;
+
         case '-':
         case '_':
             for (int i = 0; i < NUM_DRIVE_MOTORS; i++)
@@ -206,12 +234,18 @@ void loop()
             break;
 
         case 'u':
-            steerPositionPids[BL].setTarget(steerPositionPids[BL].getTarget() + 0.3);
+            for (int i = 0; i < NUM_STEER_MOTORS; i++)
+            {
+                steerPositionPids[i].setTarget(steerPositionPids[i].getTarget() + 0.3);
+            }
             running = true;
             break;
 
         case 'd':
-            steerPositionPids[BL].setTarget(steerPositionPids[BL].getTarget() - 0.3);
+            for (int i = 0; i < NUM_STEER_MOTORS; i++)
+            {
+                steerPositionPids[i].setTarget(steerPositionPids[i].getTarget() - 0.3);
+            }
             running = true;
             break;
 
@@ -219,16 +253,18 @@ void loop()
             for (int i = 0; i < NUM_DRIVE_MOTORS; i++)
             {
                 drivePids[i].setTarget(0);
-                motors[i].run(0);
             }
 
             for (int i = 0; i < NUM_STEER_MOTORS; i++)
             {
                 steerPositionPids[i].setTarget(0);
                 steerVelocityPids[i].setTarget(0);
-                motors[NUM_DRIVE_MOTORS + i].run(0);
             }
-            running = true;
+
+            for (int i = 0; i < NUM_MOTORS; i++)
+            {
+                motors[i].run(0);
+            }
             break;
 
         default:
@@ -239,18 +275,27 @@ void loop()
     static unsigned long lastDisplay = millis();
     if (millis() - lastDisplay > 50)
     {
-        Serial.print("Min:");
-        Serial.print(motors[BLS].getMinimum());
         Serial.print("\tPosition:");
-        Serial.print(potentiometers[BL].getAngle());
+        Serial.print(potentiometers[BR].getAngle());
         Serial.print("\tTarget:");
-        Serial.print(steerPositionPids[BL].getTarget());
+        Serial.print(steerPositionPids[BR].getTarget());
         Serial.print("\tPosOut:");
-        Serial.print(positionPidOutput[BL]);
+        Serial.print(positionPidOutput[BR]);
         Serial.print("\tVelOut:");
-        Serial.print(velocityPidOutput[BL]);
+        Serial.print(velocityPidOutput[BR]);
         Serial.print("\tVel:");
-        Serial.print(encoders[BLS].getFilteredSpeed());
+        Serial.print(encoders[BRS].getFilteredSpeed());
+
+       /*
+        Serial.print("FL:");
+        Serial.print(potentiometers[FL].getAngle());
+        Serial.print("\tFR:");
+        Serial.print(potentiometers[FR].getAngle());
+        Serial.print("\tBL:");
+        Serial.print(potentiometers[BL].getAngle());
+        Serial.print("\tBR:");
+        Serial.print(potentiometers[BR].getAngle());
+*/
         Serial.println();
 
         lastDisplay = millis();
@@ -265,10 +310,10 @@ void loop()
             encoders[i].estimateSpeed(isPos(drivePids[i].getTarget()));
         }
 
-        // Update steering tachometer velocities and use the sign of the motor's power to infer direction
-        for (int i = 0; i < NUM_STEER_MOTORS; i++)
+        // Run drive motors based on PID instructions
+        for (int i = 0; i < NUM_DRIVE_MOTORS; i++)
         {
-            encoders[i + NUM_DRIVE_MOTORS].estimateSpeed(isPos(steerVelocityPids[i].getTarget()));
+            motors[i].run(drivePids[i].calculateOutput(encoders[i].getFilteredSpeed()));
         }
 
         // Update potentiometers
@@ -277,6 +322,13 @@ void loop()
             potentiometers[i].update();
         }
 
+        // Update steering tachometer velocities and use the sign of the motor's power to infer direction
+        for (int i = 0; i < NUM_STEER_MOTORS; i++)
+        {
+            encoders[i + NUM_DRIVE_MOTORS].estimateSpeed(isPos(steerVelocityPids[i].getTarget()));
+        }
+
+        // Calculate velocities for steering motors
         for (int i = 0; i < NUM_STEER_MOTORS; i++)
         {
             positionPidOutput[i] = steerPositionPids[i].simpleOutput(potentiometers[i].getAngle());
@@ -284,34 +336,12 @@ void loop()
             velocityPidOutput[i] = steerVelocityPids[i].calculateOutput(encoders[i + NUM_DRIVE_MOTORS].getFilteredSpeed());
         }
 
-        motors[BLS].run(velocityPidOutput[BL]);
-
-        // Run drive motors based on PID instructions
-        /*
-        for (int i = 0; i < NUM_DRIVE_MOTORS; i++)
-        {
-            motors[i].run(drivePids[i].calculateOutput(encoders[i].getFilteredSpeed()));
-        }
-        */
-
-        // Run steering motors based on potentiometer readings
-        /*
+        // Run steering motors based on PID instructions
         for (int i = 0; i < NUM_STEER_MOTORS; i++)
         {
-            float targetVelocity = steerPositionPids[i].calculateOutput(potentiometers[i].getAngle());
-            motors[i + NUM_DRIVE_MOTORS].run(steerVelocityPids[i].calculateOutput(targetVelocity));
+            motors[i + NUM_DRIVE_MOTORS].run(velocityPidOutput[i]);
         }
-        */
 
-        /*
-        for (int i = 0; i < NUM_STEER_MOTORS; i++)
-        {
-            potentiometers[i].update();
-            targetSteerVelocites[i] = steerPositionPids[i].calculateOutput(potentiometers[i].getAngle());
-            outputSteerVelocities[i] = steerVelocityPids[i].calculateOutput(targetSteerVelocites[i]);
-            motors[i + NUM_DRIVE_MOTORS].run(outputSteerVelocities[i]);
-        }
-        */
         lastUpdate = millis();
     }
 }
