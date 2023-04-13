@@ -1,0 +1,8 @@
+prefix=/home/moonrockers/repos/production/kinectPlaying/catkin_ws/devel
+
+Name: obstacleDetect
+Description: Description of obstacleDetect
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
