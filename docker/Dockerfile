@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # ----- Below this line added for Moonrockers -----
 RUN apt update && \
     apt install -y git python3-pip xauth vim tmux iproute2 python3-tk \
-    python3-opencv libopencv-dev libeigen3-dev net-tools iputils-ping
+    python3-opencv libopencv-dev libeigen3-dev net-tools iputils-ping ros-noetic-rosserial-python
 
 RUN pip3 install pysimplegui
 
