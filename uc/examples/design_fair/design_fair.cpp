@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#define USE_USBCON // fix for ROS not communicating on the Arduino Nano 33 IOT
 #include <ros.h>
 #include "std_msgs/Float32.h"
 
@@ -8,26 +7,31 @@
 #include "Encoder.h"
 #include "PID.h"
 #include "PwmMotor.h"
+#define USE_USBCON // fix for ROS not communicating on the Arduino Nano 33 IOT
 
+
+/*
+    pio run -t upload -c examples.ini -e design_fair
+*/
 
 // Motor objects
 PwmMotor motors[6] = {
-    {BR_DRIVE_PWM_PIN, BR_DRIVE_DIR_PIN},   // BRD
-    {FR_DRIVE_PWM_PIN, FR_DRIVE_DIR_PIN},   // FRD
-    {BL_DRIVE_PWM_PIN, BL_DRIVE_DIR_PIN},   // BLD
-    {FL_DRIVE_PWM_PIN, FL_DRIVE_DIR_PIN},   // FLD
-    {MR_DRIVE_PWM_PIN, MR_DRIVE_DIR_PIN},   // MRD
-    {ML_DRIVE_PWM_PIN, ML_DRIVE_DIR_PIN}    // MLD
+    {BR_DRIVE_PWM_PIN, BR_DRIVE_DIR_PIN}, // BRD
+    {FR_DRIVE_PWM_PIN, FR_DRIVE_DIR_PIN}, // FRD
+    {BL_DRIVE_PWM_PIN, BL_DRIVE_DIR_PIN}, // BLD
+    {FL_DRIVE_PWM_PIN, FL_DRIVE_DIR_PIN}, // FLD
+    {MR_DRIVE_PWM_PIN, MR_DRIVE_DIR_PIN}, // MRD
+    {ML_DRIVE_PWM_PIN, ML_DRIVE_DIR_PIN}  // MLD
 };
 
 // Tachometers from motors
 Encoder encoders[6] = {
-    {BR_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // BRD
-    {FR_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // FRD
-    {BL_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // BLD
-    {FL_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // FLD
-    {MR_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // MRD
-    {ML_DRIVE_ENC_PIN, DRIVE_TACH_RATE}  // MLD
+    {BR_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // BRD x
+    {FR_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // FRD x
+    {BL_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // BLD x
+    {FL_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // FLD x
+    {MR_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // MRD x
+    {ML_DRIVE_ENC_PIN, DRIVE_TACH_RATE}  // MLD x
 };
 
 // PID controllers for motors
@@ -43,7 +47,7 @@ PID drivePids[6] = {
 uint8_t numMotors = sizeof(motors) / sizeof(PwmMotor);
 
 uint32_t lastUpdateTime = 0;
-int updateTimeout = 1000;
+uint32_t updateTimeout = 1000;
 
 // --------ROS stuff-----------------
 ros::NodeHandle node_handle;
@@ -72,8 +76,13 @@ void rightCallback(const std_msgs::Float32 &powerMsg)
 ros::Subscriber<std_msgs::Float32> subLeft("left_power", &leftCallback);
 ros::Subscriber<std_msgs::Float32> subRight("right_power", &rightCallback);
 
+int blinkPin = A1;
 void setup()
 {
+    pinMode(A0, OUTPUT);
+    pinMode(A7, OUTPUT);
+    pinMode(blinkPin, OUTPUT);
+
     // --- Motor control startup ---
     // Initialize motors, PIDs, and encoders
     for (int i = 0; i < numMotors; i++)
@@ -104,8 +113,16 @@ void setup()
     node_handle.subscribe(subRight);
 }
 
+//uint8_t blink = 0;
 void loop()
 {
+    static unsigned long lastDisplay = millis();
+    if (millis() - lastDisplay > 200)
+    {
+        digitalWrite(blinkPin, !digitalRead(blinkPin));
+        lastDisplay = millis();
+    }
+
     // cut power to all motors if we haven't received anything in the past 100ms
     if (millis() - lastUpdateTime > updateTimeout)
     {

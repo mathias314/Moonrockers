@@ -26,96 +26,52 @@ char readVal = '\0';
 float speed = 0;
 bool inverted = false;
 
-// enum motorLocation {BRD, MRD, FRD, BLD, MLD, FLD, BRS, FRS, BLS, BLS};
-enum motorLocation
-{
-    BRD,
-    FRD,
-    BLD,
-    FLD,
-    MRD,
-    MLD,
-    BRS,
-    FRS,
-    BLS,
-    FLS
-};
-
 PwmMotor motors[10] = {
-    {13, 34}, // BRD x
-    {6, 48},  // FRD x
-    {5, 30},  // BLD x
-    {14, 22}, // FLD x
-    {8, 42},  // MRD x
-    {3, 26},  // MLD x
-    {9, 40},  // BRS x
-    {7, 44},  // FRS x
-    {4, 28},  // BLS x
-    {2, 24}   // FLS x
-};
-
-/*
-PwmMotor motors[10] = {
-    {13, 34},  // BRD x
-    {6, 48},   // FRD x
-    {5, 30},   // BLD x
-    {14, 22},  // FLD x
-    {8, 42},   // MRD x
-    {3, 26},   // MLD x
-    {A12, 40}, // BRS x
-    {7, 44},   // FRS x
-    {4, 28},   // BLS x
-    {2, 24}    // FLS x
-};
-*/
+    {BR_DRIVE_PWM_PIN, BR_DRIVE_DIR_PIN},
+    {FR_DRIVE_PWM_PIN, FR_DRIVE_DIR_PIN},
+    {BL_DRIVE_PWM_PIN, BL_DRIVE_DIR_PIN},
+    {FL_DRIVE_PWM_PIN, FL_DRIVE_DIR_PIN},
+    {MR_DRIVE_PWM_PIN, MR_DRIVE_DIR_PIN},
+    {ML_DRIVE_PWM_PIN, ML_DRIVE_DIR_PIN},
+    {BR_STEER_PWM_PIN, BR_STEER_DIR_PIN},
+    {FR_STEER_PWM_PIN, FR_STEER_DIR_PIN},
+    {BL_STEER_PWM_PIN, BL_STEER_DIR_PIN},
+    {FL_STEER_PWM_PIN, FL_STEER_DIR_PIN}};
 
 Encoder encoders[10] = {
-    {35, DRIVE_TACH_RATE}, // BRD x
-    {49, DRIVE_TACH_RATE}, // FRD x
-    {31, DRIVE_TACH_RATE}, // BLD x
-    {23, DRIVE_TACH_RATE}, // FLD x
-    {43, DRIVE_TACH_RATE}, // MRD x
-    {27, DRIVE_TACH_RATE}, // MLD x
-    {41, STEER_TACH_RATE}, // BRS x
-    {45, STEER_TACH_RATE}, // FRS x
-    {29, STEER_TACH_RATE}, // BLS x
-    {25, STEER_TACH_RATE}  // FLS x
-};
+    {BR_DRIVE_ENC_PIN, DRIVE_TACH_RATE},
+    {FR_DRIVE_ENC_PIN, DRIVE_TACH_RATE},
+    {BL_DRIVE_ENC_PIN, DRIVE_TACH_RATE},
+    {FL_DRIVE_ENC_PIN, DRIVE_TACH_RATE},
+    {MR_DRIVE_ENC_PIN, DRIVE_TACH_RATE},
+    {ML_DRIVE_ENC_PIN, DRIVE_TACH_RATE},
+    {BR_STEER_ENC_PIN, STEER_TACH_RATE},
+    {FR_STEER_ENC_PIN, STEER_TACH_RATE},
+    {BL_STEER_ENC_PIN, STEER_TACH_RATE},
+    {FL_STEER_ENC_PIN, STEER_TACH_RATE}};
 
 PID drivePids[6] = {
-    {DRIVE_PID_PARAMS[KP], DRIVE_PID_PARAMS[KI], DRIVE_PID_PARAMS[KD], DRIVE_PID_PARAMS[N], SAMPLE_TIME},
-    {DRIVE_PID_PARAMS[KP], DRIVE_PID_PARAMS[KI], DRIVE_PID_PARAMS[KD], DRIVE_PID_PARAMS[N], SAMPLE_TIME},
-    {DRIVE_PID_PARAMS[KP], DRIVE_PID_PARAMS[KI], DRIVE_PID_PARAMS[KD], DRIVE_PID_PARAMS[N], SAMPLE_TIME},
-    {DRIVE_PID_PARAMS[KP], DRIVE_PID_PARAMS[KI], DRIVE_PID_PARAMS[KD], DRIVE_PID_PARAMS[N], SAMPLE_TIME},
-    {DRIVE_PID_PARAMS[KP], DRIVE_PID_PARAMS[KI], DRIVE_PID_PARAMS[KD], DRIVE_PID_PARAMS[N], SAMPLE_TIME},
-    {DRIVE_PID_PARAMS[KP], DRIVE_PID_PARAMS[KI], DRIVE_PID_PARAMS[KD], DRIVE_PID_PARAMS[N], SAMPLE_TIME}};
+    {DRIVE_PID_PARAMS[BRD][KP], DRIVE_PID_PARAMS[BRD][KI], DRIVE_PID_PARAMS[BRD][KD], DRIVE_PID_PARAMS[BRD][N], SAMPLE_TIME},
+    {DRIVE_PID_PARAMS[FRD][KP], DRIVE_PID_PARAMS[FRD][KI], DRIVE_PID_PARAMS[FRD][KD], DRIVE_PID_PARAMS[FRD][N], SAMPLE_TIME},
+    {DRIVE_PID_PARAMS[BLD][KP], DRIVE_PID_PARAMS[BLD][KI], DRIVE_PID_PARAMS[BLD][KD], DRIVE_PID_PARAMS[BLD][N], SAMPLE_TIME},
+    {DRIVE_PID_PARAMS[FLD][KP], DRIVE_PID_PARAMS[FLD][KI], DRIVE_PID_PARAMS[FLD][KD], DRIVE_PID_PARAMS[FLD][N], SAMPLE_TIME},
+    {DRIVE_PID_PARAMS[MRD][KP], DRIVE_PID_PARAMS[MRD][KI], DRIVE_PID_PARAMS[MRD][KD], DRIVE_PID_PARAMS[MRD][N], SAMPLE_TIME},
+    {DRIVE_PID_PARAMS[MLD][KP], DRIVE_PID_PARAMS[MLD][KI], DRIVE_PID_PARAMS[MLD][KD], DRIVE_PID_PARAMS[MLD][N], SAMPLE_TIME}};
 
 PID steerPositionPids[4] = {
-    {POS_PID_PARAMS[KP], POS_PID_PARAMS[KI], POS_PID_PARAMS[KD], POS_PID_PARAMS[N], SAMPLE_TIME},
-    {POS_PID_PARAMS[KP], POS_PID_PARAMS[KI], POS_PID_PARAMS[KD], POS_PID_PARAMS[N], SAMPLE_TIME},
-    {POS_PID_PARAMS[KP], POS_PID_PARAMS[KI], POS_PID_PARAMS[KD], POS_PID_PARAMS[N], SAMPLE_TIME},
-    {POS_PID_PARAMS[KP], POS_PID_PARAMS[KI], POS_PID_PARAMS[KD], POS_PID_PARAMS[N], SAMPLE_TIME}};
+    {POS_PID_PARAMS[BR][KP], POS_PID_PARAMS[BR][KI], POS_PID_PARAMS[BR][KD], POS_PID_PARAMS[BR][N], SAMPLE_TIME},
+    {POS_PID_PARAMS[FR][KP], POS_PID_PARAMS[FR][KI], POS_PID_PARAMS[FR][KD], POS_PID_PARAMS[FR][N], SAMPLE_TIME},
+    {POS_PID_PARAMS[BL][KP], POS_PID_PARAMS[BL][KI], POS_PID_PARAMS[BL][KD], POS_PID_PARAMS[BL][N], SAMPLE_TIME},
+    {POS_PID_PARAMS[FL][KP], POS_PID_PARAMS[FL][KI], POS_PID_PARAMS[FL][KD], POS_PID_PARAMS[FL][N], SAMPLE_TIME}};
 
 PID steerVelocityPids[4] = {
-    {STEER_PID_PARAMS[KP], STEER_PID_PARAMS[KI], STEER_PID_PARAMS[KD], STEER_PID_PARAMS[N], SAMPLE_TIME},
-    {STEER_PID_PARAMS[KP], STEER_PID_PARAMS[KI], STEER_PID_PARAMS[KD], STEER_PID_PARAMS[N], SAMPLE_TIME},
-    {STEER_PID_PARAMS[KP], STEER_PID_PARAMS[KI], STEER_PID_PARAMS[KD], STEER_PID_PARAMS[N], SAMPLE_TIME},
-    {STEER_PID_PARAMS[KP], STEER_PID_PARAMS[KI], STEER_PID_PARAMS[KD], STEER_PID_PARAMS[N], SAMPLE_TIME}};
-
-enum potLocation
-{
-    BR,
-    FR,
-    BL,
-    FL
-};
+    {STEER_PID_PARAMS[BR][KP], STEER_PID_PARAMS[BR][KI], STEER_PID_PARAMS[BR][KD], STEER_PID_PARAMS[BR][N], SAMPLE_TIME},
+    {STEER_PID_PARAMS[FR][KP], STEER_PID_PARAMS[FR][KI], STEER_PID_PARAMS[FR][KD], STEER_PID_PARAMS[FR][N], SAMPLE_TIME},
+    {STEER_PID_PARAMS[BL][KP], STEER_PID_PARAMS[BL][KI], STEER_PID_PARAMS[BL][KD], STEER_PID_PARAMS[BL][N], SAMPLE_TIME},
+    {STEER_PID_PARAMS[FL][KP], STEER_PID_PARAMS[FL][KI], STEER_PID_PARAMS[FL][KD], STEER_PID_PARAMS[FL][N], SAMPLE_TIME}};
 
 Potentiometer potentiometers[4] = {
-    {A0}, // BR
-    {A6}, // FR
-    {A4}, // BL
-    {A2}  // FL
-};
+    {FL_POT_PIN}, {FR_POT_PIN}, {BL_POT_PIN}, {BR_POT_PIN}};
 
 float positionPidOutput[4] = {0, 0, 0, 0};
 float velocityPidOutput[4] = {0, 0, 0, 0};
@@ -161,10 +117,6 @@ void setup()
         steerVelocityPids[i].setTargetLimits(-70, 70);
         steerVelocityPids[i].setLimits(-1.0, 1.0);
     }
-
-    // Correct janky motor
-    steerPositionPids[BL].setLimits(-80, 80);
-    steerVelocityPids[BL].setTargetLimits(-80, 80);
 
     // Set motors on right side to inverted so they spin in the same direction as the other wheels
     motors[FRD].setInverted(true);
@@ -275,27 +227,36 @@ void loop()
     static unsigned long lastDisplay = millis();
     if (millis() - lastDisplay > 50)
     {
-        Serial.print("\tPosition:");
-        Serial.print(potentiometers[BR].getAngle());
-        Serial.print("\tTarget:");
-        Serial.print(steerPositionPids[BR].getTarget());
-        Serial.print("\tPosOut:");
-        Serial.print(positionPidOutput[BR]);
-        Serial.print("\tVelOut:");
-        Serial.print(velocityPidOutput[BR]);
-        Serial.print("\tVel:");
-        Serial.print(encoders[BRS].getFilteredSpeed());
+        Serial.print("Target:");
+        Serial.print(drivePids[FLD].getTarget());
+        Serial.print(" Power:");
+        Serial.print(motors[FLD].getPower());
+        Serial.print(" Speed:");
+        Serial.print(encoders[FLD].estimateSpeed());
 
-       /*
-        Serial.print("FL:");
-        Serial.print(potentiometers[FL].getAngle());
-        Serial.print("\tFR:");
-        Serial.print(potentiometers[FR].getAngle());
-        Serial.print("\tBL:");
+        /*
+        Serial.print("\tPosition:");
         Serial.print(potentiometers[BL].getAngle());
-        Serial.print("\tBR:");
-        Serial.print(potentiometers[BR].getAngle());
-*/
+        Serial.print("\tTarget:");
+        Serial.print(steerPositionPids[BL].getTarget());
+        Serial.print("\tPosOut:");
+        Serial.print(positionPidOutput[BL]);
+        Serial.print("\tVelOut:");
+        Serial.print(velocityPidOutput[BL]);
+        Serial.print("\tVel:");
+        Serial.print(encoders[BLS].getFilteredSpeed());
+        */
+
+        /*
+         Serial.print("FL:");
+         Serial.print(potentiometers[FL].getAngle());
+         Serial.print("\tFR:");
+         Serial.print(potentiometers[FR].getAngle());
+         Serial.print("\tBL:");
+         Serial.print(potentiometers[BL].getAngle());
+         Serial.print("\tBR:");
+         Serial.print(potentiometers[BR].getAngle());
+        */
         Serial.println();
 
         lastDisplay = millis();
@@ -316,6 +277,7 @@ void loop()
             motors[i].run(drivePids[i].calculateOutput(encoders[i].getFilteredSpeed()));
         }
 
+/*
         // Update potentiometers
         for (int i = 0; i < NUM_STEER_MOTORS; i++)
         {
@@ -341,7 +303,7 @@ void loop()
         {
             motors[i + NUM_DRIVE_MOTORS].run(velocityPidOutput[i]);
         }
-
+*/
         lastUpdate = millis();
     }
 }

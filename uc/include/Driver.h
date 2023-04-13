@@ -1,63 +1,41 @@
-#ifndef DRIVER_H
-#define DRIVER_H
+/**
+ * Header for the PID class.
+ */
+#ifndef _DRIVER_H_
+#define _DRIVER_H_
 
-#include <Arduino.h>
-#include <math.h>
-#include "PwmMotor.h"
-#include "globals.h"
+#include <stdint.h>
+
 #include "Encoder.h"
 #include "PID.h"
 #include "Potentiometer.h"
+#include "PwmMotor.h"
+#include "globals.h"
 
 class Driver
 {
 public:
-    enum MotorLocation
-    {
-        BACK_RIGHT_DRIVE,
-        FRONT_RIGHT_DRIVE,
-        BACK_LEFT_DRIVE,
-        FRONT_LEFT_DRIVE,
-        MID_RIGHT_DRIVE,
-        MID_LEFT_DRIVE,
-        BACK_RIGHT_STEER,
-        FRONT_RIGHT_STEER,
-        BACK_LEFT_STEER,
-        FRONT_LEFT_STEER
-    };
-
-    enum DriveLocation
+    enum Joint
     {
         BACK_RIGHT,
         FRONT_RIGHT,
         BACK_LEFT,
         FRONT_LEFT,
-        MID_RIGHT,
-        MID_LEFT
-    };
-
-    enum PivotLocation
-    {
-        BACK_RIGHT,
-        FRONT_RIGHT,
-        BACK_LEFT,
-        FRONT_LEFT
+        MIDDLE_RIGHT,
+        MIDDLE_LEFT
     };
 
     Driver(float updateInterval);
 
     void init();
-    // void addCanSender(void (*canSender)(unsigned long id, uint8_t ext, uint8_t rtrBit, uint8_t len, const uint8_t *dat));
-    // void addCanReceiver(unsigned pinNum, unsigned (*canReceiver)(uint32_t *id, uint8_t *dat));
-
     void update();
     void stop();
 
     void drive(float velLeft, float velRight);
-    void setMotorPower(DriveLocation motor, float power);
-    void setPivotAngle(PivotLocation pivot, float angle);
+    void setMotorPower(Joint motor, float power);
+    void setPivotAngle(Joint pivot, float angle);
 
-    void setPivotPIDConstants(PivotLocation pivot, float kp, float ki, float kd, float N);
+    void setPivotPIDConstants(Joint pivot, float kp, float ki, float kd, float N);
 
     // Motor controllers
     static const unsigned NUM_DRIVE_MOTORS = 6;
@@ -71,14 +49,18 @@ private:
     // Motor controllers
     PwmMotor driveMotors[NUM_DRIVE_MOTORS];
     PwmMotor pivotMotors[NUM_PIVOTS];
-
     static const unsigned NUM_MOTORS = NUM_DRIVE_MOTORS + NUM_PIVOTS;
     PwmMotor *motors[NUM_MOTORS];
 
+    // Velocity Encoders
+    Encoder driveEncoders[NUM_DRIVE_MOTORS];
+    Encoder pivotEncoders[NUM_PIVOTS];
+    Encoder *encoders[NUM_MOTORS];
+
     // Position feedback sensors and PID
-    PID drivePids[6];
-    PID steerPositionPids[4];
-    PID steerVelocityPids[4];
+    PID drivePids[NUM_DRIVE_MOTORS];
+    PID pivotPositionPids[NUM_PIVOTS];
+    PID pivotVelocityPids[NUM_PIVOTS];
     float pivotTargets[NUM_PIVOTS] = {0};
 
     // Some timing stuff
