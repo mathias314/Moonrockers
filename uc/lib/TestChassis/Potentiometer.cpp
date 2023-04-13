@@ -73,9 +73,16 @@ float Potentiometer::interpAngle(unsigned val) {
  * Update the current potentiometer value. This should be called at a regular interval.
  */
 void Potentiometer::update() {
+    update(0);
+}
+
+/**
+ * Update the current potentiometer value. This should be called at a regular interval.
+ */
+void Potentiometer::update(float offset) {
     // Get current values
     unsigned long newEstimateTime = micros();
-    rawAngle = interpAngle(analogRead(pin));
+    rawAngle = interpAngle(analogRead(pin)) + offset;
     float newFilteredAngle = angleFilter.updateEstimate(rawAngle);
 
     // Estimate velocity

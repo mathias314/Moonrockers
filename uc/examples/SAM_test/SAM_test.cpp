@@ -168,7 +168,7 @@ void loop()
             running = true;
             break;
 
-        case 'f':
+        case 'w':
             for (int i = 0; i < NUM_DRIVE_MOTORS; i++)
             {
                 drivePids[i].setTarget(200);
@@ -176,14 +176,14 @@ void loop()
             running = true;
             break;
 
-        case 'm':
+        case 's':
             for (int i = 0; i < NUM_DRIVE_MOTORS; i++)
             {
                 drivePids[i].setTarget(-200);
             }
             running = true;
             break;
-        case ',':
+        case 'a':
             steerPositionPids[BR].setTarget(steerPositionPids[BR].getTarget() + 0.3);
             steerPositionPids[FR].setTarget(steerPositionPids[FR].getTarget() - 0.3);
             steerPositionPids[BL].setTarget(steerPositionPids[BL].getTarget() + 0.3);
@@ -191,7 +191,7 @@ void loop()
             running = true;
             break;
 
-        case '.':
+        case 'd':
             steerPositionPids[BR].setTarget(steerPositionPids[BR].getTarget() - 0.3);
             steerPositionPids[FR].setTarget(steerPositionPids[FR].getTarget() + 0.3);
             steerPositionPids[BL].setTarget(steerPositionPids[BL].getTarget() - 0.3);
@@ -248,6 +248,15 @@ void loop()
                                     break;
                         */
 
+        case ']':
+            POTENTIOMETER_OFFSETS[BR] += 0.1;
+            break;
+
+        case '[':
+            POTENTIOMETER_OFFSETS[BR] -= 0.1;
+            break;
+        case 'q':
+        case 'e':
         case 'z':
             for (int i = 0; i < NUM_DRIVE_MOTORS; i++)
             {
@@ -328,6 +337,8 @@ void loop()
         Serial.print(potentiometers[BL].getAngle());
         Serial.print(" ");
         Serial.print(potentiometers[FL].getAngle());
+        Serial.print(" ");
+        Serial.print(POTENTIOMETER_OFFSETS[BR]);
         /*
          Serial.print("FL:");
          Serial.print(potentiometers[FL].getAngle());
@@ -359,10 +370,12 @@ void loop()
         }
 
         // Update potentiometers
-        for (int i = 0; i < NUM_STEER_MOTORS; i++)
+        for (int i = 1; i < NUM_STEER_MOTORS; i++)
         {
             potentiometers[i].update();
         }
+        // update unique potentiometer with offset
+        potentiometers[BR].update(POTENTIOMETER_OFFSETS[BR]);
 
         // Update steering tachometer velocities and use the sign of the motor's power to infer direction
         for (int i = 0; i < NUM_STEER_MOTORS; i++)

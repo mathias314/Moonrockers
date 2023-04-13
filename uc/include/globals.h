@@ -81,6 +81,8 @@ float POS_PID_PARAMS[4][4] = {
     {350, 0.0, 0.0, 0.0},
 };
 
+float POTENTIOMETER_OFFSETS[4] = {-0.68, 0, 0, 0};
+
 enum motorLocation
 {
     BRD,

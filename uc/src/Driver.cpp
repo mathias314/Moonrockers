@@ -6,7 +6,7 @@
  * @param updateInterval - Interval in seconds to run the control loop.
  */
 Driver::Driver(float updateInterval)
-    : angleSensors{{FL_POT_PIN}, {FR_POT_PIN}, {BL_POT_PIN}, {BR_POT_PIN}},
+    : angleSensors{{BR_POT_PIN}, {FR_POT_PIN}, {BL_POT_PIN}, {FL_POT_PIN}},
       driveMotors{
           {BR_DRIVE_PWM_PIN, BR_DRIVE_DIR_PIN},
           {FR_DRIVE_PWM_PIN, FR_DRIVE_DIR_PIN},
@@ -59,10 +59,12 @@ Driver::Driver(float updateInterval)
     for (unsigned i = 0; i < NUM_DRIVE_MOTORS; i++)
     {
         motors[i] = &driveMotors[i];
+        encoders[i] = &driveEncoders[i];
     }
     for (unsigned i = 0; i < NUM_PIVOTS; i++)
     {
         motors[NUM_DRIVE_MOTORS + i] = &pivotMotors[i];
+        encoders[NUM_DRIVE_MOTORS + i] = &pivotEncoders[i];
     }
 
     this->updateInterval = updateInterval;
@@ -70,38 +72,39 @@ Driver::Driver(float updateInterval)
 
 void Driver::init()
 {
-    // Initialize all motors
-    for (unsigned i = 0; i < NUM_MOTORS; i++)
+    // Initialize all motors and encoders
+    for (int i = 0; i < NUM_MOTORS; i++)
     {
-        motors[i]->clearFaults();
+        motors[i]->init();
+        encoders[i]->init();
+        motors[i]->run(0);
     }
 
-    // Initialize all pivots
+    // Initialize all potentiometers
     for (unsigned i = 0; i < NUM_PIVOTS; i++)
     {
         angleSensors[i].init();
-        pivotPids[i].setLimits(-PIVOT_MAX_PWR, PIVOT_MAX_PWR);
-        pivotPids[i].setTargetLimits(-PIVOT_VELOCITY, PIVOT_VELOCITY);
-        pivotPids[i].setTarget(0);
     }
 
-    leftLeds.begin();
-    rightLeds.begin();
-    leftLeds.fill(Adafruit_NeoPixel::Color(0, 0, 255));
-    rightLeds.fill(Adafruit_NeoPixel::Color(0, 0, 255));
-    leftLeds.show();
-    rightLeds.show();
-}
+    // Initialize drive PID controllers
+    for (int i = 0; i < NUM_DRIVE_MOTORS; i++)
+    {
+        drivePids[i].setTarget(0);
+        drivePids[i].setTargetLimits(-30, 30);
+        drivePids[i].setLimits(-1.0, 1.0);
+    }
 
-void Driver::addCanSender(void (*canSender)(unsigned long id, uint8_t ext, uint8_t rtrBit, uint8_t len,
-                                            const uint8_t *dat))
-{
-    FrcMotorController::addCanSender(canSender);
-}
+    // Initialize angle PID
+    for (int i = 0; i < NUM_PIVOTS; i++)
+    {
+        pivotPositionPids[i].setTarget(0);
+        pivotPositionPids[i].setTargetLimits(-PI, PI);
+        pivotPositionPids[i].setLimits(-70, 70);
 
-void Driver::addCanReceiver(unsigned pinNum, unsigned (*canReceiver)(uint32_t *id, uint8_t *dat))
-{
-    FrcMotorController::addCanReceiver(pinNum, canReceiver);
+        pivotVelocityPids[i].setTarget(0);
+        pivotVelocityPids[i].setTargetLimits(-70, 70);
+        pivotVelocityPids[i].setLimits(-1.0, 1.0);
+    }
 }
 
 /**
@@ -114,7 +117,6 @@ void Driver::update()
     // Send keepalive to motors
     if (millis() - lastKeepAliveTime > KEEP_ALIVE_INTERVAL)
     {
-        FrcMotorController::sendKeepAlive();
         lastKeepAliveTime = millis();
     }
 
@@ -126,6 +128,7 @@ void Driver::update()
         float output;
         for (unsigned i = 0; i < NUM_PIVOTS; i++)
         {
+            // Update Potentiometers
             angleSensors[i].update();
 
             if (!botStopped)
@@ -208,15 +211,6 @@ void Driver::drive(float velLeft, float velRight)
     const float outerWheelDist = dist(OUTER_WHEEL_DY, OUTER_WHEEL_DX);
     const float MIN_TURN_RAD = OUTER_WHEEL_DX;
     static unsigned long ledUpdateTime = millis();
-
-    if (millis() - ledUpdateTime > 100)
-    {
-        rightLeds.fill(driveDirToColor(velRight));
-        leftLeds.fill(driveDirToColor(velLeft));
-
-        leftLeds.show();
-        rightLeds.show();
-    }
 
     if (abs(velLeft - velRight) < 5e-2)
     { // Drive straight (Have to special case this cause infinite turn radius)
