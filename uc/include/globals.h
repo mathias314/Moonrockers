@@ -15,7 +15,7 @@
 #define FL_DRIVE_PWM_PIN 14
 #define MR_DRIVE_PWM_PIN 8
 #define ML_DRIVE_PWM_PIN 3
-#define BR_STEER_PWM_PIN 9
+#define BR_STEER_PWM_PIN 61
 #define FR_STEER_PWM_PIN 7
 #define BL_STEER_PWM_PIN 4
 #define FL_STEER_PWM_PIN 2
@@ -54,17 +54,17 @@
 #define DRIVE_TACH_RATE 324
 #define STEER_TACH_RATE 504
 
-const float SAMPLE_TIME = 0.005;
+const float SAMPLE_TIME = 0.001;
 const float MOTOR_MINIMUM_SPEEDS[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-//const float STEER_PID_PARAMS[4] = {0.02, 0.01, 0.0, 0.0};
-//const float POS_PID_PARAMS[4] = {350, 0.0, 0.0, 0.0};
+// const float STEER_PID_PARAMS[4] = {0.02, 0.01, 0.0, 0.0};
+// const float POS_PID_PARAMS[4] = {350, 0.0, 0.0, 0.0};
 float DRIVE_PID_PARAMS[6][4] = {
-    {0.02, 0.01, 0.0, 0.0},
-    {0.02, 0.01, 0.0, 0.0},
-    {0.02, 0.01, 0.0, 0.0},
-    {0.02, 0.01, 0.0, 0.0},
-    {0.02, 0.01, 0.0, 0.0},
-    {0.02, 0.01, 0.0, 0.0},
+    {0.05, 0.0, 0.0, 0.0},
+    {0.05, 0.0, 0.0, 0.0},
+    {0.05, 0.0, 0.0, 0.0},
+    {0.05, 0.0, 0.0, 0.0},
+    {0.05, 0.0, 0.0, 0.0},
+    {0.05, 0.0, 0.0, 0.0},
 };
 
 float STEER_PID_PARAMS[4][4] = {
