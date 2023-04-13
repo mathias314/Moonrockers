@@ -1,3 +1,6 @@
 [submodule "uc/lib/FrcMotorControllers"]
 	path = uc/lib/FrcMotorControllers
 	url = https://gitlab.com/sdmines-open/frc-motor-controllers.git
+[submodule "kinectPlaying/catkin_ws/src/Azure_Kinect_ROS_Driver"]
+	path = kinectPlaying/catkin_ws/src/Azure_Kinect_ROS_Driver
+	url = https://github.com/microsoft/Azure_Kinect_ROS_Driver.git
