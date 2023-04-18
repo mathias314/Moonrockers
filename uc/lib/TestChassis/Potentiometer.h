@@ -16,6 +16,7 @@ public:
     void init();
     void calibrate(const unsigned* calPts);
     void update();
+    void update(float offset);
     float getAngle();
     float getRawAngle();
     float getVelocity();

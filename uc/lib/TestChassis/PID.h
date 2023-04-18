@@ -11,6 +11,7 @@ class PID {
         PID(float Kp, float Ki, float Kd, float N, float sample_time);
 
         float calculateOutput(float input);
+        float simpleOutput(float input);
 
         void setConstants(float Kp,float Ki, float Kd, float N, float sample_time);
         void setLimits(float min, float max);
@@ -39,6 +40,9 @@ class PID {
         float Ki = 1;
         float Kd = 1;
         float N = 20;
+
+        float errorPrev = 0;
+        float integralPrev = 0;
 
         float output;
         float target;

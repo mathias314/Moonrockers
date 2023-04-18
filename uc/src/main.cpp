@@ -2,221 +2,118 @@
 #define USE_USBCON // fix for ROS not communicating on the Arduino Nano 33 IOT
 #include <ros.h>
 #include "std_msgs/Float32.h"
-#include "std_msgs/ColorRGBA.h"
 
 #include <SPI.h>
-#include "SparkMax.h"
 #include "globals.h"
+#include "Encoder.h"
+#include "PID.h"
 #include "PwmMotor.h"
-#include <Adafruit_NeoPixel.h>
-#include "canFuncs.h"
 
 
-// pin numbers
-constexpr int LED = 13;
+// Motor objects
+PwmMotor motors[6] = {
+    {BR_DRIVE_PWM_PIN, BR_DRIVE_DIR_PIN},   // BRD
+    {FR_DRIVE_PWM_PIN, FR_DRIVE_DIR_PIN},   // FRD
+    {BL_DRIVE_PWM_PIN, BL_DRIVE_DIR_PIN},   // BLD
+    {FL_DRIVE_PWM_PIN, FL_DRIVE_DIR_PIN},   // FLD
+    {MR_DRIVE_PWM_PIN, MR_DRIVE_DIR_PIN},   // MRD
+    {ML_DRIVE_PWM_PIN, ML_DRIVE_DIR_PIN}    // MLD
+};
 
-// CAN keepalive variables
-uint32_t canKeepAliveLastTime = 0;
-constexpr uint8_t canKeepAlivePeriod = 40; // ms, should be under 100
+// Tachometers from motors
+Encoder encoders[6] = {
+    {BR_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // BRD
+    {FR_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // FRD
+    {BL_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // BLD
+    {FL_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // FLD
+    {MR_DRIVE_ENC_PIN, DRIVE_TACH_RATE}, // MRD
+    {ML_DRIVE_ENC_PIN, DRIVE_TACH_RATE}  // MLD
+};
 
-// status LED blink
-uint32_t blinkLastTime = 0;
-uint16_t blinkPeriod = 500;
-uint8_t blinkState = 0;
-
-int collectionPlungeLowerEndstopPin = 38;
-int collectionPlungeUpperEndstopPin = 40;
-float collectionPlungeLastPower = 0;
-
-
-// --------Motor control stuff-----------------
-// SPARK motor definitions
-SparkMax mtrFrontLeft(FL_MTR_ID);
-SparkMax mtrFrontRight(FR_MTR_ID);
-SparkMax mtrBackRight(BR_MTR_ID);
-SparkMax mtrBackLeft(BL_MTR_ID);
-SparkMax mtrBucket(DELIVERY_MTR_ID);
-SparkMax mtrPlunge(PLUNGE_MTR_ID);
+// PID controllers for motors
+PID drivePids[6] = {
+    {DRIVE_PID_PARAMS[BRD][KP], DRIVE_PID_PARAMS[BRD][KI], DRIVE_PID_PARAMS[BRD][KD], DRIVE_PID_PARAMS[BRD][N], SAMPLE_TIME},
+    {DRIVE_PID_PARAMS[FRD][KP], DRIVE_PID_PARAMS[FRD][KI], DRIVE_PID_PARAMS[FRD][KD], DRIVE_PID_PARAMS[FRD][N], SAMPLE_TIME},
+    {DRIVE_PID_PARAMS[BLD][KP], DRIVE_PID_PARAMS[BLD][KI], DRIVE_PID_PARAMS[BLD][KD], DRIVE_PID_PARAMS[BLD][N], SAMPLE_TIME},
+    {DRIVE_PID_PARAMS[FLD][KP], DRIVE_PID_PARAMS[FLD][KI], DRIVE_PID_PARAMS[FLD][KD], DRIVE_PID_PARAMS[FLD][N], SAMPLE_TIME},
+    {DRIVE_PID_PARAMS[MRD][KP], DRIVE_PID_PARAMS[MRD][KI], DRIVE_PID_PARAMS[MRD][KD], DRIVE_PID_PARAMS[MRD][N], SAMPLE_TIME},
+    {DRIVE_PID_PARAMS[MLD][KP], DRIVE_PID_PARAMS[MLD][KI], DRIVE_PID_PARAMS[MLD][KD], DRIVE_PID_PARAMS[MLD][N], SAMPLE_TIME}};
 
 // this should include ALL motors on the robot
-SparkMax* motors[] = {&mtrFrontLeft, &mtrFrontRight, &mtrBackRight, &mtrBackLeft, &mtrPlunge, &mtrBucket};
-uint8_t numMotors = sizeof(motors) / sizeof(SparkMax*);
-
-PwmMotor mtrGate(GATE_PIN, GATE_PWM_CHANNEL);
-PwmMotor mtrConveyor(CONVEYOR_PIN, CONVEYOR_PWM_CHANNEL);
-
+uint8_t numMotors = sizeof(motors) / sizeof(PwmMotor);
 
 uint32_t lastUpdateTime = 0;
 int updateTimeout = 1000;
 
-
-// --------Pretty light stuff-----------------
-Adafruit_NeoPixel frontLeds(5, FRONT_LED_PIN, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel backLeds(5, BACK_LED_PIN, NEO_GRB + NEO_KHZ800);
-
-
 // --------ROS stuff-----------------
 ros::NodeHandle node_handle;
 
-void leftCallback(const std_msgs::Float32& powerMsg)
+void leftCallback(const std_msgs::Float32 &powerMsg)
 {
-  mtrFrontLeft.setVelocity(powerMsg.data);
-  mtrBackLeft.setVelocity(powerMsg.data);
-  lastUpdateTime = millis();
+    /*
+    mtrFrontLeft.setVelocity(powerMsg.data);
+    mtrBackLeft.setVelocity(powerMsg.data);
+    */
+    analogWrite(A0, 255 * abs(powerMsg.data));
+    lastUpdateTime = millis();
 }
 
-void rightCallback(const std_msgs::Float32& powerMsg)
+void rightCallback(const std_msgs::Float32 &powerMsg)
 {
-  // these powers are negated since the motors are facing opposite the left motors
-  mtrFrontRight.setVelocity(-powerMsg.data);
-  mtrBackRight.setVelocity(-powerMsg.data);
-  lastUpdateTime = millis();
+    // these powers are negated since the motors are facing opposite the left motors
+    /*
+    mtrFrontRight.setVelocity(-powerMsg.data);
+    mtrBackRight.setVelocity(-powerMsg.data);
+    */
+    analogWrite(A7, 255 * abs(powerMsg.data));
+    lastUpdateTime = millis();
 }
-
-void chainDriveCallback(const std_msgs::Float32& powerMsg)
-{
-  mtrConveyor.setPower(powerMsg.data);
-  lastUpdateTime = millis();
-}
-
-void gateCallback(const std_msgs::Float32& powerMsg)
-{
-  mtrGate.setPower(powerMsg.data);
-  lastUpdateTime = millis();
-}
-
-void bucketCallback(const std_msgs::Float32& powerMsg)
-{
-  mtrBucket.setPower(powerMsg.data);
-  lastUpdateTime = millis();
-}
-
-void collectionPlungeCallback(const std_msgs::Float32& powerMsg)
-{
-  mtrPlunge.setPower(powerMsg.data);
-  lastUpdateTime = millis();
-}
-
-// void frontLedCallback(const std_msgs::ColorRGBA& colorMsg)
-// {
-//   frontLeds.fill(Adafruit_NeoPixel::Color(colorMsg.r, colorMsg.g, colorMsg.b), NUM_FRONT_LEDS);
-//   frontLeds.show();
-//   lastUpdateTime = millis();
-// }
-
-// void backLedCallback(const std_msgs::ColorRGBA& colorMsg)
-// {
-//   backLeds.fill(Adafruit_NeoPixel::Color(colorMsg.r, colorMsg.g, colorMsg.b), NUM_BACK_LEDS);
-//   backLeds.show();
-//   lastUpdateTime = millis();
-// }
-
-// TODO Not entirely sure what this is...
-// void collectionPlungeCallbackFake(float power)
-// {
-//   int powerInt = 1500;
-
-//   if (power > 0 && digitalRead(collectionPlungeUpperEndstopPin))
-//   {
-//     powerInt = map(power * 1000, 0, 1000, 1500, 2000);
-//   }
-//   else if (power < 0 && digitalRead(collectionPlungeLowerEndstopPin))
-//   {
-//     powerInt = map(-power * 1000, 0, 1000, 1500, 1000);
-//   }
-
-//   collectionPlunge.writeMicroseconds(powerInt);
-//   lastUpdateTime = millis();
-// }
 
 ros::Subscriber<std_msgs::Float32> subLeft("left_power", &leftCallback);
 ros::Subscriber<std_msgs::Float32> subRight("right_power", &rightCallback);
-ros::Subscriber<std_msgs::Float32> subCollectionChainDrive("chain_drive_power", &chainDriveCallback);
-ros::Subscriber<std_msgs::Float32> subCollectionPlunge("collection_plunge_power", &collectionPlungeCallback);
-ros::Subscriber<std_msgs::Float32> subBucket("bucket_power", &bucketCallback);
-// ros::Subscriber<std_msgs::Float32> subGate("gate_power", &gateCallback);
-// ros::Subscriber<std_msgs::ColorRGBA> subFrontLed("front_led", &frontLedCallback);
-// ros::Subscriber<std_msgs::ColorRGBA> subBackLed("back_led", &frontLedCallback);
 
 void setup()
 {
-  pinMode(LED, OUTPUT);
-  int ledPattern[4] = {0, 0, 0, 1};
-  int ledCounter = 0;
-  
-  // --- Pretty light startup --- 
-  frontLeds.begin();
-  backLeds.begin();
-  frontLeds.fill(Adafruit_NeoPixel::Color(150, 0, 0), NUM_FRONT_LEDS);
-  frontLeds.show();
-  backLeds.fill(Adafruit_NeoPixel::Color(150, 0, 0), NUM_BACK_LEDS);
-  backLeds.show();
+    // --- Motor control startup ---
+    // Initialize motors, PIDs, and encoders
+    for (int i = 0; i < numMotors; i++)
+    {
+        drivePids[i].setTargetLimits(-20, 20);
+        drivePids[i].setLimits(-1.0, 1.0);
+        drivePids[i].setTarget(0);
 
-  // --- Motor control startup ---
-  //set the baudrate and let it know we are using the 16MHz oscilator on the CAN module
-  if (!canInit()) {
-    while (true) {
-      delay(1000);
-      digitalWrite(LED, ledPattern[ledCounter++ % 4]);
+        motors[i].init();
+        motors[i].run(0);
+        encoders[i].init();
     }
-  }
 
-  // Add the sender for the CAN communications.
-  FrcMotorController::addCanSender(canSend);
-  FrcMotorController::addCanReceiver(CAN_INT_PIN, canReceive);
+    // Set motors on right side to inverted so they spin in the same direction as the left side
+    motors[FRD].setInverted(true);
+    motors[MRD].setInverted(true);
+    motors[BRD].setInverted(true);
 
-  // get the motors ready to go
-  for (int i = 0; i < numMotors; i++)
-  {
-    motors[i]->clearFaults();
-    motors[i]->setPower(0);
-  }
-  mtrConveyor.init();
-  mtrGate.init();
-  
-  // --- ROS Startup ---
-  node_handle.initNode();
-  node_handle.subscribe(subLeft);
-  node_handle.subscribe(subRight);
-  node_handle.subscribe(subCollectionChainDrive);
-  node_handle.subscribe(subCollectionPlunge);
-  node_handle.subscribe(subBucket);
-  // node_handle.subscribe(subGate);
+    // get the motors ready to go
+    for (int i = 0; i < numMotors; i++)
+    {
+        motors[i].run(0);
+    }
 
-  // Indicate we are done
-  frontLeds.fill(Adafruit_NeoPixel::Color(0, 150, 0), NUM_FRONT_LEDS);
-  frontLeds.show();
-  backLeds.fill(Adafruit_NeoPixel::Color(0, 150, 0), NUM_BACK_LEDS);
-  backLeds.show();
+    // --- ROS Startup ---
+    node_handle.initNode();
+    node_handle.subscribe(subLeft);
+    node_handle.subscribe(subRight);
 }
 
 void loop()
-{ 
-  // Update at a fixed interval (<100ms I think)
-  if (millis() - canKeepAliveLastTime > canKeepAlivePeriod)
-  {
-    canKeepAliveLastTime = millis();
-    FrcMotorController::sendKeepAlive();
-  }
-
-  if (millis() - blinkLastTime > blinkPeriod)
-  {
-    blinkLastTime = millis();
-    blinkState = !blinkState;
-    digitalWrite(LED, blinkState);
-  }
-
-  // cut power to all motors if we haven't received anything in the past 100ms
-  if (millis() - lastUpdateTime > updateTimeout)
-  {
-    for (int i = 0; i < numMotors; i++)
+{
+    // cut power to all motors if we haven't received anything in the past 100ms
+    if (millis() - lastUpdateTime > updateTimeout)
     {
-      motors[i]->setPower(0);
+        for (int i = 0; i < numMotors; i++)
+        {
+            drivePids[i].setTarget(0);
+            motors[i].run(0);
+        }
     }
-    
-    mtrConveyor.setPower(0);
-    mtrGate.setPower(0);
-  }
-
-  node_handle.spinOnce();
+    node_handle.spinOnce();
 }
