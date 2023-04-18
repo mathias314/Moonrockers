@@ -54,6 +54,21 @@
 #define DRIVE_TACH_RATE 324
 #define STEER_TACH_RATE 504
 
+inline float dist(float x1, float x2) { return sqrt(x1 * x1 + x2 * x2); }
+
+// Some drivetrain dimensions
+const float OUTER_WHEEL_DY = 15.25;
+const float OUTER_WHEEL_DX = 9;
+const float INNER_WHEEL_DX = 9;
+
+// Motor controllers
+static const unsigned NUM_DRIVE_MOTORS = 6;
+static const unsigned NUM_PIVOTS = 4;
+
+// Pivoting angle limits
+const float PIVOT_LIM_OUT = PI / 2;
+const float PIVOT_LIM_IN = PI / 2;
+
 const float SAMPLE_TIME = 0.001;
 const float MOTOR_MINIMUM_SPEEDS[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 // const float STEER_PID_PARAMS[4] = {0.02, 0.01, 0.0, 0.0};
