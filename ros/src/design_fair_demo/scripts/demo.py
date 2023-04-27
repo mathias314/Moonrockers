@@ -12,10 +12,10 @@ right_power = None
 autoDriveLeft = None
 autoDriveRight = None
 targetDist = 1
-deadzone = 0.1
-rotationDeadzone = 0.2
+deadzone = 0.5
+rotationDeadzone = 0.5
 lastTargetDistTime = 0
-autodriveTimeout = 1  # seconds
+autodriveTimeout = 0.125  # seconds
 
 
 def poseCallback(data):
@@ -27,17 +27,17 @@ def poseCallback(data):
         dist = math.sqrt(Tvec[0] ** 2 + Tvec[1] ** 2 + Tvec[2] ** 2)
 
         if Tvec[0] > rotationDeadzone:
-            autoDriveLeft.publish(-0.1)
-            autoDriveRight.publish(0.1)
+            autoDriveLeft.publish(0.75)
+            autoDriveRight.publish(-0.2)
         elif Tvec[0] < -rotationDeadzone:
-            autoDriveLeft.publish(0.1)
-            autoDriveRight.publish(-0.1)
+            autoDriveLeft.publish(-0.75)
+            autoDriveRight.publish(0.2)
         elif dist > targetDist + deadzone:
-            autoDriveLeft.publish(0.1)
-            autoDriveRight.publish(0.1)
+            autoDriveLeft.publish(-0.75)
+            autoDriveRight.publish(-0.2)
         elif dist < targetDist - deadzone:
-            autoDriveLeft.publish(-0.1)
-            autoDriveRight.publish(-0.1)
+            autoDriveLeft.publish(0.75)
+            autoDriveRight.publish(0.2)
         else:
             autoDriveLeft.publish(0)
             autoDriveRight.publish(0)
