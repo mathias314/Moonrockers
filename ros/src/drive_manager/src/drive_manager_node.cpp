@@ -7,7 +7,7 @@
 #include "std_msgs/Float32.h"
 #include <time.h>
 
-//constexpr float scale = 0.2;
+// constexpr float scale = 0.2;
 constexpr float scale = 1;
 constexpr time_t timeout = 1; // seconds
 
@@ -17,13 +17,13 @@ public:
   static ros::Publisher *pubLeft, *pubRight;
   static time_t lastTime;
 
-  SticksCallbackHandler(ros::Publisher* _pubLeft, ros::Publisher* _pubRight)
+  SticksCallbackHandler(ros::Publisher *_pubLeft, ros::Publisher *_pubRight)
   {
     pubLeft = _pubLeft;
     pubRight = _pubRight;
   }
 
-  static void sticksCallback(const gamepad_msgs::Sticks::ConstPtr& msg)
+  static void sticksCallback(const gamepad_msgs::Sticks::ConstPtr &msg)
   {
     std_msgs::Float32 leftMsg, rightMsg;
 
@@ -31,15 +31,15 @@ public:
     {
       // scale the stick values down so the bot drives a bit slower
       // also negate since negative values result from pushing up on the sticks
-      leftMsg.data = - msg->ly * scale;
-      rightMsg.data = - msg->ry * scale;
+      leftMsg.data = -msg->ly * scale;
+      rightMsg.data = -msg->rx * scale; // can change to rx to change steering;
 
       pubLeft->publish(leftMsg);
       pubRight->publish(rightMsg);
     }
   }
 
-  static void autoDriveLeftCallback(const std_msgs::Float32::ConstPtr& msg)
+  static void autoDriveLeftCallback(const std_msgs::Float32::ConstPtr &msg)
   {
     std_msgs::Float32 leftMsg;
 
@@ -50,7 +50,7 @@ public:
     lastTime = time(NULL);
   }
 
-  static void autoDriveRightCallback(const std_msgs::Float32::ConstPtr& msg)
+  static void autoDriveRightCallback(const std_msgs::Float32::ConstPtr &msg)
   {
     std_msgs::Float32 rightMsg;
 
@@ -63,8 +63,8 @@ public:
 };
 
 // must initialize static members outside of class, thanks C++
-ros::Publisher* SticksCallbackHandler::pubLeft = nullptr;
-ros::Publisher* SticksCallbackHandler::pubRight = nullptr;
+ros::Publisher *SticksCallbackHandler::pubLeft = nullptr;
+ros::Publisher *SticksCallbackHandler::pubRight = nullptr;
 time_t SticksCallbackHandler::lastTime = 0;
 
 int main(int argc, char **argv)

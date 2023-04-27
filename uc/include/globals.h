@@ -15,7 +15,7 @@
 #define FL_DRIVE_PWM_PIN 14
 #define MR_DRIVE_PWM_PIN 8
 #define ML_DRIVE_PWM_PIN 3
-#define BR_STEER_PWM_PIN 61
+#define BR_STEER_PWM_PIN A15
 #define FR_STEER_PWM_PIN 7
 #define BL_STEER_PWM_PIN 4
 #define FL_STEER_PWM_PIN 2
@@ -54,12 +54,18 @@
 #define DRIVE_TACH_RATE 324
 #define STEER_TACH_RATE 504
 
+#define isPos(x) ((x) > 0 ? true : false)
+
 inline float dist(float x1, float x2) { return sqrt(x1 * x1 + x2 * x2); }
+
 
 // Some drivetrain dimensions
 const float OUTER_WHEEL_DY = 15.25;
 const float OUTER_WHEEL_DX = 9;
 const float INNER_WHEEL_DX = 9;
+
+const float MAX_DRIVE_VELOCITY = 40;
+const float MAX_STEER_VELOCITY = 90;
 
 // Motor controllers
 static const unsigned NUM_DRIVE_MOTORS = 6;
