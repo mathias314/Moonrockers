@@ -7,10 +7,10 @@ import time
 from std_msgs.msg import Float32
 from geometry_msgs.msg import Pose
 
-left_power = None
-right_power = None
-autoDriveLeft = None
-autoDriveRight = None
+drive_power = None
+steer_power = None
+autoDrive = None
+autoSteer = None
 targetDist = 1
 deadzone = 0.5
 rotationDeadzone = 0.5
@@ -27,20 +27,20 @@ def poseCallback(data):
         dist = math.sqrt(Tvec[0] ** 2 + Tvec[1] ** 2 + Tvec[2] ** 2)
 
         if Tvec[0] > rotationDeadzone:
-            autoDriveLeft.publish(0.75)
-            autoDriveRight.publish(-0.2)
+            autoDrive.publish(0.75)
+            autoSteer.publish(-0.2)
         elif Tvec[0] < -rotationDeadzone:
-            autoDriveLeft.publish(-0.75)
-            autoDriveRight.publish(0.2)
+            autoDrive.publish(-0.75)
+            autoSteer.publish(0.2)
         elif dist > targetDist + deadzone:
-            autoDriveLeft.publish(-0.75)
-            autoDriveRight.publish(-0.2)
+            autoDrive.publish(-0.75)
+            autoSteer.publish(-0.2)
         elif dist < targetDist - deadzone:
-            autoDriveLeft.publish(0.75)
-            autoDriveRight.publish(0.2)
+            autoDrive.publish(0.75)
+            autoSteer.publish(0.2)
         else:
-            autoDriveLeft.publish(0)
-            autoDriveRight.publish(0)
+            autoDrive.publish(0)
+            autoSteer.publish(0)
 
 
 def targetDistanceCallback(data):
@@ -52,13 +52,13 @@ def targetDistanceCallback(data):
 
 def demo():
     # initialize ROS stuff
-    global left_power
-    global right_power
-    global autoDriveLeft
-    global autoDriveRight
+    global drive_power
+    global steer_power
+    global autoDrive
+    global autoSteer
     rospy.init_node("demo", anonymous=True)
-    autoDriveLeft = rospy.Publisher("autoDriveLeft", Float32, queue_size=100)
-    autoDriveRight = rospy.Publisher("autoDriveRight", Float32, queue_size=100)
+    autoDrive = rospy.Publisher("autoDrive", Float32, queue_size=100)
+    autoSteer = rospy.Publisher("autoSteer", Float32, queue_size=100)
     rospy.Subscriber("pose", Pose, poseCallback)
     rospy.Subscriber("targetDistance", Float32, targetDistanceCallback)
     rate = rospy.Rate(20)

@@ -1,3 +1,3 @@
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/ros/src"
+    "cmake.sourceDirectory": "/home/mathew/repos/seniorDesign/production/ros/src/moon_msgs"
 }

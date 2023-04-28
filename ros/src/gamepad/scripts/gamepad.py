@@ -11,7 +11,8 @@ from std_msgs.msg import Float32
 
 gamepadType = Gamepad.Gamepad
 
-class DiffTracker():
+
+class DiffTracker:
     # numItems: number of items we're going to track the difference in
     # delta: mininum change in any one item for self.hasChanged() to return True
     def __init__(self, numItems: int, delta: float):
@@ -30,7 +31,7 @@ class DiffTracker():
 
         # check all pairs of elements
         for i in range(self.numItems):
-            if (abs(self.lastVals[i] - newVals[i]) > self.delta):
+            if abs(self.lastVals[i] - newVals[i]) > self.delta:
                 changed = True
 
         # return True and keep track of the newest vals if they've changed enough
@@ -39,11 +40,12 @@ class DiffTracker():
                 self.lastVals[i] = deepcopy(newVals[i])
             return True
 
-        if (time.time() - self.lastTime > self.timeout):
+        if time.time() - self.lastTime > self.timeout:
             self.lastTime = time.time()
             return True
 
         return False
+
 
 class JoystickScaler:
     def __init__(self, scaleFactor):
@@ -56,14 +58,15 @@ class JoystickScaler:
 
         return scaledValues
 
+
 def joysticks():
     # Wait for a connection
     if not Gamepad.available():
-        rospy.logwarn('Please connect your gamepad...')
+        rospy.logwarn("Please connect your gamepad...")
         while not Gamepad.available():
             time.sleep(1.0)
     gamepad = gamepadType()
-    print('Gamepad connected')
+    print("Gamepad connected")
 
     # set up the DiffTracker class
     diff = DiffTracker(4, 0.01)
@@ -72,12 +75,14 @@ def joysticks():
     scaler = JoystickScaler(1)
 
     # initialize ROS stuff
-    sticks = rospy.Publisher('sticks', Sticks, queue_size=100)
-    collectionChainDrive = rospy.Publisher('chain_drive_power', Float32, queue_size=100)
-    collectionPlunge = rospy.Publisher('collection_plunge_power', Float32, queue_size=100)
-    bucket = rospy.Publisher('bucket_power', Float32, queue_size=100)
-    rospy.init_node('gamepad', anonymous=True)
-    rate = rospy.Rate(20) # 20 Hz, joystick update rate
+    sticks = rospy.Publisher("sticks", Sticks, queue_size=100)
+    collectionChainDrive = rospy.Publisher("chain_drive_power", Float32, queue_size=100)
+    collectionPlunge = rospy.Publisher(
+        "collection_plunge_power", Float32, queue_size=100
+    )
+    bucket = rospy.Publisher("bucket_power", Float32, queue_size=100)
+    rospy.init_node("gamepad", anonymous=True)
+    rate = rospy.Rate(20)  # 20 Hz, joystick update rate
 
     gamepad.startBackgroundUpdates()
 
@@ -100,7 +105,7 @@ def joysticks():
             haty = gamepad.axis(7)
 
             # only publish a message if the sticks have moved a bit
-            if (diff.hasChanged(stickValues)):
+            if diff.hasChanged(stickValues):
                 scaled = scaler.scale(stickValues)
                 sticksMsg = Sticks(scaled[0], scaled[1], scaled[2], scaled[3])
                 sticks.publish(sticksMsg)
@@ -126,12 +131,13 @@ def joysticks():
                 bucket.publish(-haty * bucketMult)
                 hatyLastState = haty
 
-            rate.sleep()  
+            rate.sleep()
     finally:
         gamepad.disconnect()
 
-if __name__ == '__main__':
-  try:
-    joysticks()
-  except rospy.ROSInterruptException:
-    pass
+
+if __name__ == "__main__":
+    try:
+        joysticks()
+    except rospy.ROSInterruptException:
+        pass
