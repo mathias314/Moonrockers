@@ -40,7 +40,7 @@ Set up the ROS environment:
 
 `docker$ source devel/setup.sh`
 
-Run the `.launch` file you want:
+Run the `.launch` file you want like:
 
 `docker$ roslaunch launch/base/drive.launch`
 
