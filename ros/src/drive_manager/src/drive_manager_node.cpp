@@ -14,57 +14,57 @@ constexpr time_t timeout = 1; // seconds
 class SticksCallbackHandler
 {
 public:
-  static ros::Publisher *pubLeft, *pubRight;
+  static ros::Publisher *drivePub, *steerPub;
   static time_t lastTime;
 
-  SticksCallbackHandler(ros::Publisher *_pubLeft, ros::Publisher *_pubRight)
+  SticksCallbackHandler(ros::Publisher *_drivePub, ros::Publisher *_steerPub)
   {
-    pubLeft = _pubLeft;
-    pubRight = _pubRight;
+    drivePub = _drivePub;
+    steerPub = _steerPub;
   }
 
   static void sticksCallback(const gamepad_msgs::Sticks::ConstPtr &msg)
   {
-    std_msgs::Float32 leftMsg, rightMsg;
+    std_msgs::Float32 driveMsg, steerMsg;
 
     if (time(NULL) - lastTime > timeout)
     {
       // scale the stick values down so the bot drives a bit slower
       // also negate since negative values result from pushing up on the sticks
-      leftMsg.data = -msg->ly * scale;
-      rightMsg.data = -msg->rx * scale; // can change to rx to change steering;
+      driveMsg.data = -msg->ly * scale;
+      steerMsg.data = -msg->rx * scale; // can change to rx to change steering;
 
-      pubLeft->publish(leftMsg);
-      pubRight->publish(rightMsg);
+      drivePub->publish(driveMsg);
+      steerPub->publish(steerMsg);
     }
   }
 
-  static void autoDriveLeftCallback(const std_msgs::Float32::ConstPtr &msg)
+  static void autoDriveCallback(const std_msgs::Float32::ConstPtr &msg)
   {
-    std_msgs::Float32 leftMsg;
+    std_msgs::Float32 driveMsg;
 
-    leftMsg.data = msg->data;
+    driveMsg.data = msg->data;
 
-    pubLeft->publish(leftMsg);
+    drivePub->publish(driveMsg);
 
     lastTime = time(NULL);
   }
 
-  static void autoDriveRightCallback(const std_msgs::Float32::ConstPtr &msg)
+  static void autoSteerCallback(const std_msgs::Float32::ConstPtr &msg)
   {
-    std_msgs::Float32 rightMsg;
+    std_msgs::Float32 steerMsg;
 
-    rightMsg.data = msg->data;
+    steerMsg.data = msg->data;
 
-    pubRight->publish(rightMsg);
+    steerPub->publish(steerMsg);
 
     lastTime = time(NULL);
   }
 };
 
 // must initialize static members outside of class, thanks C++
-ros::Publisher *SticksCallbackHandler::pubLeft = nullptr;
-ros::Publisher *SticksCallbackHandler::pubRight = nullptr;
+ros::Publisher *SticksCallbackHandler::drivePub = nullptr;
+ros::Publisher *SticksCallbackHandler::steerPub = nullptr;
 time_t SticksCallbackHandler::lastTime = 0;
 
 int main(int argc, char **argv)
@@ -74,17 +74,17 @@ int main(int argc, char **argv)
 
   // set up the publisher, which will send out scaled stick y values and tank
   //  drive wheel powers
-  ros::Publisher pubLeft = n.advertise<std_msgs::Float32>("left_power", 100);
-  ros::Publisher pubRight = n.advertise<std_msgs::Float32>("right_power", 100);
+  ros::Publisher drivePub = n.advertise<std_msgs::Float32>("drive_power", 100);
+  ros::Publisher steerPub = n.advertise<std_msgs::Float32>("steer_power", 100);
 
   // initialize the callback handler for the subscriber, give it a reference
   //  to the publisher so it can send the modified message back out
-  SticksCallbackHandler cbHandler(&pubLeft, &pubRight);
+  SticksCallbackHandler cbHandler(&drivePub, &steerPub);
 
   // set up the subscriber, which will receive raw stick values
   ros::Subscriber sub = n.subscribe("sticks", 100, cbHandler.sticksCallback);
-  ros::Subscriber autoDriveLeft = n.subscribe("autoDriveLeft", 100, cbHandler.autoDriveLeftCallback);
-  ros::Subscriber autoDriveRight = n.subscribe("autoDriveRight", 100, cbHandler.autoDriveRightCallback);
+  ros::Subscriber autoDriveLeft = n.subscribe("autoDrive", 100, cbHandler.autoDriveCallback);
+  ros::Subscriber autoDriveRight = n.subscribe("autoSteer", 100, cbHandler.autoSteerCallback);
 
   ros::spin();
 
