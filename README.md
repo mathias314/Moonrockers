@@ -1,14 +1,12 @@
 # About | Moonrockers - Robotic Mining Challenge
 
-Programming a robot to compete autonomously in the robotic mining challenge.
+Programming a robot to compete autonomously (as much as possible) in the robotic mining challenge.
 
 Please see more in-depth documentation in the System Document in the "about" project.
 
 A high level overview of each of the folders in this project follows:
 
-docker - The docker folder contains the content for the control station docker container. Run the build.sh and run.sh script in order to launch the driver station control.
-
-docker-robot - Contains the docker container for the code that runs on the Jetson on the robot. Run the build.sh and run.sh to launch to robot code container.
+docker - The docker folder contains the content for the control station and robot docker container. Run the build.sh and run.sh script in order to launch the driver station and robot instances.
 
 kinectPlaying - Contains scripts for running the obstacle detection script, using the Azure Kinect DK.
 
