@@ -73,27 +73,26 @@ Potentiometer potentiometers[4] = {
 
 float positionPidOutput[4] = {0, 0, 0, 0};
 float velocityPidOutput[4] = {0, 0, 0, 0};
-float left_vel = 0;
-float right_vel = 0;
+float left_stick = 0;
+float right_stick = 0;
 
 // --------ROS stuff-----------------
 ros::NodeHandle node_handle;
 
 void leftCallback(const std_msgs::Float32 &powerMsg)
 {
-    pinMode(A8, OUTPUT);
-    left_vel = -powerMsg.data;
+    // controller outputs opposite signs
+    left_stick = -powerMsg.data;
 }
 
 void rightCallback(const std_msgs::Float32 &powerMsg)
 {
-    pinMode(A7, OUTPUT);
-    // these powers are negated since the motors are facing opposite the left motors
-    right_vel = -powerMsg.data;
+    // controller outputs opposite signs
+    right_stick = -powerMsg.data;
 }
 
-ros::Subscriber<std_msgs::Float32> subLeft("left_power", &leftCallback);
-ros::Subscriber<std_msgs::Float32> subRight("right_power", &rightCallback);
+ros::Subscriber<std_msgs::Float32> subLeft("drive_power", &leftCallback);
+ros::Subscriber<std_msgs::Float32> subRight("steer_power", &rightCallback);
 
 void calculate_tank(float velLeft, float velRight)
 {
@@ -208,6 +207,12 @@ void calculate_tank(float velLeft, float velRight)
     }
 }
 
+/*
+    This is a naive implementation of driving.
+    
+    The leftStick is the power of the left stick ranging from -1.0 to 1.0
+    Ditto for the rightStick
+*/
 void calculate_sticks(float leftStick, float rightStick)
 {
     const float outerWheelDist = dist(OUTER_WHEEL_DY, OUTER_WHEEL_DX);
@@ -440,7 +445,7 @@ void loop()
     if (millis() - lastUpdate > 1000 * SAMPLE_TIME)
     {
         // calculate_tank(left_vel, right_vel);
-        calculate_sticks(left_vel, right_vel);
+        calculate_sticks(left_stick, right_stick);
 
         // Update drive tachometer velocities and use the sign of the motor's power to infer direction
         for (int i = 0; i < NUM_DRIVE_MOTORS; i++)
@@ -451,15 +456,16 @@ void loop()
         // Run drive motors based on PID instructions
         for (int i = 0; i < NUM_DRIVE_MOTORS; i++)
         {
+            // Check for runaway motors
             if (encoders[i].getFilteredSpeed() > MAX_DRIVE_VELOCITY + 5 || encoders[i].getFilteredSpeed() < -MAX_DRIVE_VELOCITY - 5)
             {
                 motors[i].run(0);
             }
+            // Normal operation. Run motors based on PID output
             else
             {
                 motors[i].run(drivePids[i].calculateOutput(encoders[i].getFilteredSpeed()));
             }
-            //motors[i].run(drivePids[i].calculateOutput(encoders[i].getFilteredSpeed()));
         }
 
         // Update potentiometers
@@ -467,7 +473,9 @@ void loop()
         {
             potentiometers[i].update();
         }
+
         // update unique potentiometer with offset
+        // this is a special case since the potentiometer model is different from the others
         potentiometers[BR].update(POTENTIOMETER_OFFSETS[BR]);
 
         // Update steering tachometer velocities and use the sign of the motor's power to infer direction
@@ -479,6 +487,7 @@ void loop()
         // Calculate velocities for steering motors
         for (int i = 0; i < NUM_STEER_MOTORS; i++)
         {
+            // Simple output is a different PID calculation because the numerical approximation goofs for small inputs
             positionPidOutput[i] = steerPositionPids[i].simpleOutput(potentiometers[i].getAngle());
             steerVelocityPids[i].setTarget(positionPidOutput[i]);
             velocityPidOutput[i] = steerVelocityPids[i].calculateOutput(encoders[i + NUM_DRIVE_MOTORS].getFilteredSpeed());
@@ -489,7 +498,10 @@ void loop()
         {
             motors[i + NUM_DRIVE_MOTORS].run(velocityPidOutput[i]);
         }
+
         lastUpdate = millis();
     }
+
+    // Update ROS
     node_handle.spinOnce();
 }
